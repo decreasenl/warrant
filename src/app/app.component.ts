@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ElectronService } from './electron.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Warrant';
+
+  constructor(public electronService: ElectronService) {
+  // var mysql = require('mysql');
+    // if(electronService.isElectron) {
+    //   console.log('hello, im running electron');
+    // }
+  }
 }
