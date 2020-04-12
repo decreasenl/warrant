@@ -1,5 +1,5 @@
 {
-  "name": "angular-electron",
+  "name": "Frits",
   "version": "7.0.3",
   "description": "Angular 9 with Electron (Typescript + SASS + Hot Reload)",
   "homepage": "https://github.com/maximegris/angular-electron",
@@ -90,5 +90,8 @@
   },
   "engines": {
     "node": ">=10.13.0"
+  },
+  "dependencies": {
+    "custom-electron-titlebar": "3.2.2-hotfix62"
   }
 }

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
+import { Titlebar, Color } from 'custom-electron-titlebar'
+
 
 @Component({
   selector: 'app-root',
@@ -24,5 +26,12 @@ export class AppComponent {
     } else {
       console.log('Mode web');
     }
+
+
+const titleBar = new Titlebar({
+	backgroundColor: Color.fromHex('#383434')
+});
+
+titleBar.updateTitle();
   }
 }
