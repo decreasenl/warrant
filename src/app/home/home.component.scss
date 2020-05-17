@@ -98,7 +98,7 @@ $primary-border-color: #2e71ff;
  .sidebar {
    padding: 0px;
    background: $primary-bg-color;
-   min-height: 100vh;
+   min-height: calc(100vh - 80px);
    /* Todo :: calculate max height using scss calc */
    border-right: 1px solid rgba(255, 255, 255, 0.05);
  }

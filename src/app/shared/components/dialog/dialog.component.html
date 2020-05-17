@@ -1,0 +1,14 @@
+<div class="mat-dialog-title dialog-drag" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <fa-icon [icon]="faWindow" class="mr-2"></fa-icon>
+  {{ title }}
+
+  <button mat-icon-button (click)="dialogRef.close()" class="float-right bigger-icon">
+      <fa-icon [icon]="faTimes"></fa-icon>
+  </button>
+</div>
+
+<hr>
+
+<div class="mat-dialog-content">
+  <transit-applications-grid [parent]="parent"></transit-applications-grid>
+</div>

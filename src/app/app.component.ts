@@ -28,10 +28,10 @@ export class AppComponent {
     }
 
 
-const titleBar = new Titlebar({
-	backgroundColor: Color.fromHex('#383434')
-});
+    const titleBar = new Titlebar({
+      backgroundColor: Color.fromHex('#1f2227')
+    });
 
-titleBar.updateTitle();
+    titleBar.updateTitle();
   }
 }

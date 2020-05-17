@@ -18,7 +18,7 @@ function createWindow() {
             nodeIntegration: true,
             allowRunningInsecureContent: (serve) ? true : false,
         },
-        frame: false
+        frame: true
     });
     if (serve) {
         require('electron-reload')(__dirname, {
