@@ -18,7 +18,7 @@ function createWindow() {
             nodeIntegration: true,
             allowRunningInsecureContent: (serve) ? true : false,
         },
-        frame: true
+        frame: false
     });
     if (serve) {
         require('electron-reload')(__dirname, {
@@ -33,6 +33,7 @@ function createWindow() {
             slashes: true
         }));
     }
+    electron_1.Menu.setApplicationMenu(null);
     if (serve) {
         win.webContents.openDevTools();
     }

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, Menu } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -21,7 +21,7 @@ function createWindow(): BrowserWindow {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
     },
-    frame: true
+    frame: false
   });
 
   if (serve) {
@@ -36,6 +36,8 @@ function createWindow(): BrowserWindow {
       slashes: true
     }));
   }
+
+  Menu.setApplicationMenu(null);
 
   if (serve) {
     win.webContents.openDevTools();
