@@ -1,5 +1,5 @@
 {
-  "name": "Frits",
+  "name": "Warrant",
   "version": "7.0.3",
   "description": "Angular 9 with Electron (Typescript + SASS + Hot Reload)",
   "homepage": "https://github.com/maximegris/angular-electron",
@@ -99,6 +99,7 @@
     "@angular/material": "9.2.3",
     "@ng-bootstrap/ng-bootstrap": "6.1.0",
     "bootstrap": "4.4.1",
-    "custom-electron-titlebar": "3.2.2-hotfix62"
+    "custom-electron-titlebar": "3.2.2-hotfix62",
+    "material-design-icons": "3.0.1"
   }
 }

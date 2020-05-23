@@ -34,6 +34,13 @@ function createWindow() {
         }));
     }
     electron_1.Menu.setApplicationMenu(null);
+    var myNotification = new electron_1.Notification();
+    myNotification.title = 'Oranges';
+    myNotification.body = 'Something happened!';
+    myNotification.on('click', function () {
+        console.log('CLICKED');
+    });
+    myNotification.show();
     if (serve) {
         win.webContents.openDevTools();
     }

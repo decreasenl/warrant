@@ -1,6 +1,8 @@
+
 @import "~bootstrap/scss/bootstrap";
 
-
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "material-design-icons/iconfont/material-icons.css";
 /* You can add global styles to this file, and also import other style files */
 html, body {
   margin: 0;
@@ -9,3 +11,11 @@ html, body {
   height: 100%;
 }
 
+@import '~@angular/material/theming';
+
+$primary: mat-palette($mat-indigo);
+$accent: mat-palette($mat-pink, A200, A100, A400);
+$warn: mat-palette($mat-red);
+$theme: mat-light-theme($primary, $accent, $warn); // Or mat-dark-theme
+
+@include angular-material-theme($theme);

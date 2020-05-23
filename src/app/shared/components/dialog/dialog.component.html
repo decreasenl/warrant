@@ -1,14 +1,26 @@
-<div class="mat-dialog-title dialog-drag" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
-  <fa-icon [icon]="faWindow" class="mr-2"></fa-icon>
-  {{ title }}
+<div class="mat-dialog-title dialog-drag text-center" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <!-- <fa-icon [icon]="faExclamationTriangle" class="fs-2"></fa-icon> -->
+  <mat-icon iconName="home">home</mat-icon>
 
-  <button mat-icon-button (click)="dialogRef.close()" class="float-right bigger-icon">
-      <fa-icon [icon]="faTimes"></fa-icon>
-  </button>
 </div>
 
 <hr>
 
 <div class="mat-dialog-content">
-  <transit-applications-grid [parent]="parent"></transit-applications-grid>
+  <p>
+    
+    <br>
+    
+    <mat-icon color="warn">warning</mat-icon>
+
+  </p>
 </div>
+
+<button mat-button color="primary">Primary</button>
+
+<button mat-raised-button class="float-right" (click)="dialogRef.close()">
+  
+  Ok
+  <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+
+</button>
