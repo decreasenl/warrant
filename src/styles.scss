@@ -1,21 +1,78 @@
-
+@import "~@angular/material/theming";
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bootstrap/scss/bootstrap";
-
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "material-design-icons/iconfont/material-icons.css";
+
 /* You can add global styles to this file, and also import other style files */
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
-
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   height: 100%;
 }
 
-@import '~@angular/material/theming';
+$secondary-ideas: (
+  
+ 1: #E8DAB2,
+ 2: #DD6E42
+);
+@include mat-core();
 
-$primary: mat-palette($mat-indigo);
-$accent: mat-palette($mat-pink, A200, A100, A400);
-$warn: mat-palette($mat-red);
-$theme: mat-light-theme($primary, $accent, $warn); // Or mat-dark-theme
+$decrease-primary: (
+  50: #97b8ff,
+  100: #82aaff,
+  200: #6d9cff,
+  300: #588dff,
+  400: #437fff,
+  500: #2e71ff,
+  600: #2966e6,
+  700: #255acc,
+  800: #204fb3,
+  900: #1c4499,
+  A100: #173980,
+  A200: #122d66,
+  A400: #0e224c,
+  A700: #091733,
+  contrast: (
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A700: white,
+  ),
+);
 
-@include angular-material-theme($theme);
+$decrease-secondary: (
+  50: #8ca1ad,
+  100: #748e9c,
+  200: #5d7b8c,
+  300: #46697b,
+  400: #2f566b,
+  500: #18435A,
+  600: #163c51,
+  700: #133648,
+  800: #112f3f,
+  900: #0e2836,
+  A100: #ffffff,
+  A200: #fff1e9,
+  A400: #ffd1b6,
+  A700: #ffc19c,
+  contrast: (
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A700: white,
+  ),
+);
+
+$primary-palette: mat-palette($decrease-primary);
+$accent-palette: mat-palette($decrease-secondary);
+$app-accent: mat-palette($mat-pink, A200, A100, A400);
+$app-theme: mat-light-theme($primary-palette, $accent-palette);
+
+@include angular-material-theme($app-theme);

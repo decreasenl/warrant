@@ -12,6 +12,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCommonModule } from '@angular/material/core';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { DialogComponent } from './components/dialog/dialog.component';
     FormsModule,
     MatDialogModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatFormFieldModule,
+    MatCommonModule,
+    MatButtonModule
   ],
   exports: [
     TranslateModule,
