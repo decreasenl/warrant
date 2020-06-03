@@ -16,6 +16,8 @@ export class ElectronService {
   childProcess: typeof childProcess;
   fs: typeof fs;
 
+  processes: Array<any>;
+
   get isElectron(): boolean {
     return !!(window && window.process && window.process.type);
   }
@@ -30,5 +32,13 @@ export class ElectronService {
       this.childProcess = window.require('child_process');
       this.fs = window.require('fs');
     }
+  }
+
+  findProcess(lib: string) {
+    if (!this.processes.find(p => p.lib === lib)) {
+      var requiredInstance = (<any>window).require(lib);
+      this.processes.push({ lib: lib, instance: requiredInstance });
+    }
+    return this.processes.find(p => p.lib === lib);
   }
 }
