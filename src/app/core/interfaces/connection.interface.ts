@@ -4,5 +4,9 @@ export interface Connection {
   password: string,
   database: string,
   port: number,
-  type: string
+  type: string,
+  tag: {
+    name: string,
+    color: string
+  }
 }

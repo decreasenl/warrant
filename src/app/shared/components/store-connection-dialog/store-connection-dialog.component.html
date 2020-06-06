@@ -46,10 +46,14 @@
   </mat-form-field>
 
   <mat-form-field appearance="fill">
-    <mat-label>Port</mat-label>
-    <input matInput placeholder="3306" />
-    <!-- <mat-icon matSuffix>flash_on</mat-icon> -->
-    <mat-hint>Database port</mat-hint>
+    <mat-label>Tag</mat-label>
+    <mat-hint></mat-hint>
+
+    <mat-select>
+      <mat-option value="option">Development</mat-option>
+      <mat-option value="option">Testing</mat-option>
+      <mat-option value="option">Production</mat-option>
+    </mat-select>
   </mat-form-field>
 
   <h3 class="dec-subheading">Authentication</h3>
