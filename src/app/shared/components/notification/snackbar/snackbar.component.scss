@@ -1,0 +1,6 @@
+@import "../../../../../assets/variables.scss";
+
+::ng-deep snack-bar-container.dec-notification {
+  background: $dark-bg-color;
+  text-align: center;
+}

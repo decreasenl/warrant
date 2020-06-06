@@ -1,0 +1,11 @@
+<span>
+   <span *ngIf="data.success">
+    <mat-icon iconName="info">check</mat-icon>
+   </span>
+
+   <span *ngIf="!data.success">
+    <mat-icon iconName="info">close</mat-icon>
+   </span>
+
+  {{ data.message }}
+</span>
