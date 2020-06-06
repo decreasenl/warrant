@@ -20,7 +20,7 @@ body {
 $secondary-ideas: (
   1: #e8dab2,
   2: #dd6e42,
-  3: #ffa500 // looks real slick in forms.,,
+  3: #ffa500 // looks real slick in forms.,,,
 );
 @include mat-core();
 
@@ -98,9 +98,14 @@ $app-theme: mat-light-theme($primary-palette, $accent-palette);
   background: $primary-bg-color;
 }
 
+.mat-select-panel {
+  background: black;
+}
+
+.mat-select-panel .mat-option:hover,
 .mat-select-panel .mat-option.mat-active,
 .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: $dark-bg-color;
 }
 
 .mat-form-field-label,
@@ -109,7 +114,9 @@ $app-theme: mat-light-theme($primary-palette, $accent-palette);
   color: $disabled-text-color;
 }
 
-.mat-form-field {
+.mat-form-field,
+.mat-option,
+.mat-option.mat-active {
   color: $light-text-color;
 }
 
