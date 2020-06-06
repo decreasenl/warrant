@@ -114,10 +114,12 @@ $app-theme: mat-light-theme($primary-palette, $accent-palette);
   color: $disabled-text-color;
 }
 
-.mat-form-field,
 .mat-option,
-.mat-option.mat-active {
-  color: $light-text-color;
+.mat-option.mat-active,
+.mat-select-value-text,
+.mat-form-field,
+.mat-input-element  {
+  color: $light-text-color!important;
 }
 
 /**
