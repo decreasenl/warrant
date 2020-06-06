@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { Titlebar, Color } from 'custom-electron-titlebar'
-
+import { ElectronService } from './core/services/electron.service';
 
 @Component({
   selector: 'app-root',
