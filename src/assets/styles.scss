@@ -3,7 +3,8 @@
 @import "~bootstrap/scss/bootstrap";
 @import "material-design-icons/iconfont/material-icons.css";
 
-/* You can add global styles to this file, and also import other style files */
+@import "./variables.scss";
+
 html,
 body {
   margin: 0;
@@ -13,10 +14,13 @@ body {
   height: 100%;
 }
 
+/**
+ * [CUSTOM THEME SETTINGS]
+ */
 $secondary-ideas: (
-  
- 1: #E8DAB2,
- 2: #DD6E42
+  1: #e8dab2,
+  2: #dd6e42,
+  3: #ffa500 // looks real slick in forms.,,
 );
 @include mat-core();
 
@@ -51,7 +55,7 @@ $decrease-secondary: (
   200: #5d7b8c,
   300: #46697b,
   400: #2f566b,
-  500: #18435A,
+  500: #18435a,
   600: #163c51,
   700: #133648,
   800: #112f3f,
@@ -76,3 +80,42 @@ $app-accent: mat-palette($mat-pink, A200, A100, A400);
 $app-theme: mat-light-theme($primary-palette, $accent-palette);
 
 @include angular-material-theme($app-theme);
+
+/**
+ * [FORM STYLES]
+ */
+.mat-form-field {
+  padding: 0.5rem !important;
+}
+
+.mat-form-field.mat-focused .mat-form-field-suffix {
+  color: $accent-color;
+  @include transition;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex,
+.mat-select-panel-wrap .mat-option {
+  background: $primary-bg-color;
+}
+
+.mat-select-panel .mat-option.mat-active,
+.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mat-form-field-label,
+.mat-form-field-infix,
+.mat-hint {
+  color: $disabled-text-color;
+}
+
+.mat-form-field {
+  color: $light-text-color;
+}
+
+/**
+ * Basic transition
+ */
+.transition {
+  @include transition;
+}

@@ -1,0 +1,16 @@
+$disabled-text-color: #616367;
+$primary-bg-color: #1f2227;
+$dark-bg-color: #1a1d21;
+$faded-border-color: rgba(255, 255, 255, 0.10);
+$accent-color: #2e71ff;
+
+$light-text-color: #e9e9eb;
+
+
+@mixin transition {
+  -webkit-transition: all 200ms ease-in-out;
+  -moz-transition: all 200ms ease-in-out;
+  -ms-transition: all 200ms ease-in-out;
+  -o-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+}
