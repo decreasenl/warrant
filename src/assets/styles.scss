@@ -20,7 +20,7 @@ body {
 $secondary-ideas: (
   1: #e8dab2,
   2: #dd6e42,
-  3: #ffa500 // looks real slick in forms.,,,
+  3: #ffa500 // looks real slick in forms.,,,,
 );
 @include mat-core();
 
@@ -86,6 +86,7 @@ $app-theme: mat-light-theme($primary-palette, $accent-palette);
  */
 .mat-form-field {
   padding: 0.5rem !important;
+  width:230px;
 }
 
 .mat-form-field.mat-focused .mat-form-field-suffix {
@@ -110,21 +111,34 @@ $app-theme: mat-light-theme($primary-palette, $accent-palette);
 
 .mat-form-field-label,
 .mat-form-field-infix,
+.mat-form-field-autofill-control,
+.mat-input-element::placeholder,
 .mat-hint {
-  color: $disabled-text-color;
+  color: $disabled-text-color!important;
 }
 
 .mat-option,
 .mat-option.mat-active,
 .mat-select-value-text,
 .mat-form-field,
-.mat-input-element  {
-  color: $light-text-color!important;
+.mat-input-element {
+  color: $light-text-color !important;
 }
 
 /**
- * Basic transition
+ * [Basic transition]
  */
 .transition {
   @include transition;
 }
+
+
+/**
+ * [TYPOGRAPHY]
+ */
+ .dec-subheading {
+  font: 400 15px/24px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+  margin:0;
+  padding: .25rem 0 .25rem 1rem!important
+ }
