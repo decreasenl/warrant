@@ -166,7 +166,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "warrant",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "warrant"
