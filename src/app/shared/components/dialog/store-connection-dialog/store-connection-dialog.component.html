@@ -7,49 +7,47 @@
   {{ "Connection.Add" | translate }}
 </div>
 
-<div class="mat-dialog-content">
-  <h3 class="dec-subheading">Connection details</h3>
+<div class="mat-dialog-content" [formGroup]="connectionForm">
+  <h3 class="dec-subheading">
+    {{ 'Connection.details' | translate }}
+  </h3>
 
   <mat-form-field appearance="fill">
-    <mat-label>Host</mat-label>
-    <input matInput placeholder="Server connection" />
+    <mat-label>{{ 'Host' | translate }}</mat-label>
+    <input matInput formControlName="host" placeholder="Server connection" />
     <mat-icon matSuffix>server-security</mat-icon>
-    <mat-hint>Ip-Address or host name</mat-hint>
+    <mat-hint>{{ 'Host.description' | translate }}</mat-hint>
     <!-- <mat-icon iconName="info">home</mat-icon> -->
   </mat-form-field>
 
   <mat-form-field appearance="fill">
-    <mat-label>Type</mat-label>
-    <mat-hint>Connection type</mat-hint>
+    <mat-label>{{ 'Type' | translate }}</mat-label>
+    <mat-hint>{{ 'Connection.type' | translate }}</mat-hint>
 
-    <mat-select>
-      <mat-option value="option">Option</mat-option>
-      <mat-option value="option">Option 1</mat-option>
-      <mat-option value="option">Option 2</mat-option>
-      <mat-option value="option">Option 3</mat-option>
-      <mat-option value="option">Option 4</mat-option>
+    <mat-select formControlName="type">
+      <mat-option *ngFor="let type of connectionTypes" [value]="type">{{type}}</mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
-    <mat-label>Database</mat-label>
-    <input matInput placeholder="master" />
+    <mat-label>{{ 'Database' | translate }}</mat-label>
+    <input matInput formControlName="database" placeholder="master" />
     <!-- <mat-icon matSuffix>flash_on</mat-icon> -->
-    <mat-hint>The name of the database</mat-hint>
+    <mat-hint>{{ 'Database.description' | translate }}</mat-hint>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
-    <mat-label>Port</mat-label>
-    <input matInput placeholder="3306" />
+    <mat-label>{{ 'Port' | translate }}</mat-label>
+    <input matInput formControlName="port" placeholder="3306" />
     <!-- <mat-icon matSuffix>flash_on</mat-icon> -->
-    <mat-hint>Database port</mat-hint>
+    <mat-hint>{{ 'Port.description' | translate }}</mat-hint>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
-    <mat-label>Tag</mat-label>
+    <mat-label>{{ 'Tag' | translate }}</mat-label>
     <mat-hint></mat-hint>
 
-    <mat-select>
+    <mat-select formControlName="tag">
       <mat-option value="option">Development</mat-option>
       <mat-option value="option">Testing</mat-option>
       <mat-option value="option">Production</mat-option>
@@ -59,29 +57,30 @@
   <h3 class="dec-subheading">Authentication</h3>
 
   <mat-form-field appearance="fill">
-    <mat-label>Username</mat-label>
-    <input matInput />
+    <mat-label>{{ 'Username' | translate }}</mat-label>
+    <input matInput formControlName="username" />
     <!-- <mat-icon matSuffix>flash_on</mat-icon> -->
     <mat-hint></mat-hint>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
-    <mat-label>Password</mat-label>
-    <input matInput type="password" />
+    <mat-label>{{ 'Password' | translate }}</mat-label>
+    <input matInput formControlName="password" type="password" />
     <!-- <mat-icon matSuffix>flash_on</mat-icon> -->
     <mat-hint></mat-hint>
   </mat-form-field>
 </div>
 
 <div>
-  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-button (click)="dialogRef.close()">{{ 'cancel' | translate | titlecase}}</button>
 
   <button
     mat-button
     color="primary"
     class="float-right"
     (click)="saveConnection()"
+    [disabled]="connectionForm.invalid"
   >
-    Ok
+    {{ 'Save' | translate }}
   </button>
 </div>

@@ -20,7 +20,8 @@ export class ConnectionService {
   }
 
   getConnections(): Array<Connection> {
-    return JSON.parse(window.localStorage.getItem('connections'));
+    const connections = window.localStorage.getItem('connections');
+    return this.connection = connections && connections.length ? JSON.parse(connections) : [];
   }
 
   connect(connection: Connection, onResult = Function) {
@@ -29,8 +30,8 @@ export class ConnectionService {
     return onResult(this[connection.type]());
   }
 
-  addConnection(connection: Connection): Array<Connection> {
-    this.connections = this.getConnections();
+  saveConnection(connection: Connection): Array<Connection> {
+    this.getConnections();
 
     this.connections = [
       ...this.connections.filter(conn => conn.database !== connection.database), 

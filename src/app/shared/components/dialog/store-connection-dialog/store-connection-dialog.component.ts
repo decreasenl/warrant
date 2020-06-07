@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { ConnectionService } from '../../../../core/services/connection.service';
 import { Connection } from '../../../../core/interfaces/connection.interface';
@@ -13,6 +13,11 @@ import { Notification } from '../../../../core/classes/notification.class';
 export class StoreConnectionDialogComponent implements OnInit {
 
   connectionForm: FormGroup;
+
+  connectionTypes: Array<string> = [
+    'mysql',
+    'msql'
+  ]
 
   constructor(
     public dialogRef: MatDialogRef<StoreConnectionDialogComponent>,
@@ -33,20 +38,23 @@ export class StoreConnectionDialogComponent implements OnInit {
     }
 
     this.connectionForm = new FormGroup({
-      'host': new FormControl(),
-      'user': new FormControl(),
-      'password': new FormControl(),
-      'database': new FormControl(),
-      'port': new FormControl(),
-      'type': new FormControl(),
-      'tag': new FormControl()
+      'host': new FormControl(this.data.connection ? this.data.connection.host : '', Validators.required),
+      'username': new FormControl(this.data.connection ? this.data.connection.user : '', Validators.required),
+      'password': new FormControl(this.data.connection ? this.data.connection.password : '', Validators.required),
+      'database': new FormControl(this.data.connection ? this.data.connection.database : '', Validators.required),
+      'port': new FormControl(this.data.connection ? this.data.connection.port : '', Validators.required),
+      'type': new FormControl(this.data.connection ? this.data.connection.type : '', Validators.required),
+      'tag': new FormControl(this.data.connection ? this.data.connection.tag : '', Validators.required)
     })
   }
 
   saveConnection() {
-    // const existingConnection = this.connectionService.getConnections().find(c => c.database === )
+    const connection: Connection = this.connectionForm.value;
     
-    this.notification.succes('Connection was saved');
+    if (this.connectionForm.valid) {
+      this.connectionService.saveConnection(connection);
+      this.notification.succes('Connection was saved');
+    }
   }
 
 }

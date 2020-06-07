@@ -18,7 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { StoreConnectionDialogComponent } from './components/dialog/store-connection-dialog/store-connection-dialog.component';
 
 @NgModule({
@@ -27,7 +27,7 @@ import { StoreConnectionDialogComponent } from './components/dialog/store-connec
     WebviewDirective,
     StoreConnectionDialogComponent
   ],
-  imports: [
+  imports: [    
     BrowserModule,
     CommonModule,
     TranslateModule,
