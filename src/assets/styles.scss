@@ -125,6 +125,10 @@ $app-theme: mat-light-theme($primary-palette, $accent-palette);
   color: $light-text-color !important;
 }
 
+.mat-button.mat-primary[disabled] {
+  color: $disabled-text-color
+}
+
 /**
  * [Basic transition]
  */
