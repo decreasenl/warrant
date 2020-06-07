@@ -24,7 +24,8 @@ export class Notification {
       data: {
         message: message
       },
-      panelClass: 'dec-notification'
+      panelClass: 'dec-notification',
+      duration: 5000
     })
   }
 
@@ -36,7 +37,8 @@ export class Notification {
       },
       horizontalPosition: 'right',
       verticalPosition: 'top',
-      panelClass: 'dec-notification'
+      panelClass: 'dec-notification', 
+      duration: 5000
     })
   }
 }
