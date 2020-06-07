@@ -34,6 +34,8 @@ export class Notification {
         message: message,
         success: success
       },
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
       panelClass: 'dec-notification'
     })
   }
