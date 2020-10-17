@@ -3,7 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { ConnectionService } from '../../../../core/services/connection.service';
-import { Connection } from '../../../../core/interfaces/connection.interface';
+import { ConnectionConfig } from '../../../../core/interfaces/connection-config.interface';
+
 import { Notification } from '../../../../core/classes/notification.class';
 @Component({
   selector: 'warrant-dialog',
@@ -24,13 +25,13 @@ export class StoreConnectionDialogComponent implements OnInit {
     public connectionService: ConnectionService,
     private notification: Notification,
     @Inject(MAT_DIALOG_DATA) public data: {
-      connection?: Connection
+      configuration?: ConnectionConfig
     }
   ) { }
 
   ngOnInit(): void {
-    if (this.data.connection) {
-      const invalidConnection = this.connectionService.getConnections().find(c => c.database !== this.data.connection.database);
+    if (this.data.configuration) {
+      const invalidConnection = this.connectionService.getConnections().find(c => c.database !== this.data.configuration.database);
       if (invalidConnection) {
         this.notification.error('This connection is invalid.');
         return;
@@ -38,18 +39,18 @@ export class StoreConnectionDialogComponent implements OnInit {
     }
 
     this.connectionForm = new FormGroup({
-      'host': new FormControl(this.data.connection ? this.data.connection.host : '', Validators.required),
-      'username': new FormControl(this.data.connection ? this.data.connection.user : '', Validators.required),
-      'password': new FormControl(this.data.connection ? this.data.connection.password : '', Validators.required),
-      'database': new FormControl(this.data.connection ? this.data.connection.database : '', Validators.required),
-      'port': new FormControl(this.data.connection ? this.data.connection.port : '', Validators.required),
-      'type': new FormControl(this.data.connection ? this.data.connection.type : '', Validators.required),
-      'tag': new FormControl(this.data.connection ? this.data.connection.tag : '', Validators.required)
+      'host': new FormControl(this.data.configuration ? this.data.configuration.host : '', Validators.required),
+      'user': new FormControl(this.data.configuration ? this.data.configuration.user : '', Validators.required),
+      'password': new FormControl(this.data.configuration ? this.data.configuration.password : '', Validators.required),
+      'database': new FormControl(this.data.configuration ? this.data.configuration.database : '', Validators.required),
+      'port': new FormControl(this.data.configuration ? this.data.configuration.port : '', Validators.required),
+      'type': new FormControl(this.data.configuration ? this.data.configuration.type : '', Validators.required),
+      'tag': new FormControl(this.data.configuration ? this.data.configuration.tag : '', Validators.required)
     })
   }
 
   saveConnection() {
-    const connection: Connection = this.connectionForm.value;
+    const connection: ConnectionConfig = this.connectionForm.value;
     
     if (this.connectionForm.valid) {
       this.connectionService.saveConnection(connection);

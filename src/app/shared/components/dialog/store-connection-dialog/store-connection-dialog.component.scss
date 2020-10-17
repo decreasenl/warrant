@@ -4,7 +4,7 @@
 
 ::ng-deep .decrease-panel .mat-dialog-container{
   background-color: $dark-bg-color;
-  color: $light-text-color!important;
+  color: $text-light-color!important;
   // color: #edeeef!important;
 
   .mat-tab-label {
@@ -13,7 +13,7 @@
 }
 
 .mat-list-item {
-  color:$light-text-color
+  color:$text-light-color
   // color:#edeeef
 }
 
