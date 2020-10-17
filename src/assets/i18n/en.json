@@ -1,8 +1,5 @@
 {
   "PAGES": {
-    "HOME": {
-      "TITLE": "App works !"
-    },
     "DATABASE": {
       "Connections": "Connections"
     }
@@ -29,5 +26,6 @@
   "Testing": "Testing",
   "Production": "Production",
   "Authentication": "Authentication",
-  "Connection.details": "Connnection details"
+  "Connection.details": "Connnection details",
+  "Search.placeholder": "Search for connections, databases or tables"
 }
