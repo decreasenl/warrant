@@ -20,7 +20,7 @@ body {
 $secondary-ideas: (
   1: #e8dab2,
   2: #dd6e42,
-  3: #ffa500 // looks real slick in forms.,,,,
+  3: #ffa500 // looks real slick in forms.,,,,,
 );
 @include mat-core();
 
@@ -86,7 +86,7 @@ $app-theme: mat-light-theme($primary-palette, $accent-palette);
  */
 .mat-form-field {
   padding: 0.5rem !important;
-  width:230px;
+  width: 230px;
 }
 
 .mat-form-field.mat-focused .mat-form-field-suffix {
@@ -114,7 +114,7 @@ $app-theme: mat-light-theme($primary-palette, $accent-palette);
 .mat-form-field-autofill-control,
 .mat-input-element::placeholder,
 .mat-hint {
-  color: $disabled-text-color!important;
+  color: $text-disabled-color !important;
 }
 
 .mat-option,
@@ -122,11 +122,11 @@ $app-theme: mat-light-theme($primary-palette, $accent-palette);
 .mat-select-value-text,
 .mat-form-field,
 .mat-input-element {
-  color: $light-text-color !important;
+  color: $text-light-color !important;
 }
 
 .mat-button.mat-primary[disabled] {
-  color: $disabled-text-color
+  color: $text-disabled-color;
 }
 
 /**
@@ -136,13 +136,37 @@ $app-theme: mat-light-theme($primary-palette, $accent-palette);
   @include transition;
 }
 
-
 /**
  * [TYPOGRAPHY]
  */
- .dec-subheading {
+.dec-subheading {
   font: 400 15px/24px Roboto, "Helvetica Neue", sans-serif;
   letter-spacing: normal;
-  margin:0;
-  padding: .25rem 0 .25rem 1rem!important
- }
+  margin: 0;
+  padding: 0.25rem 0 0.25rem 1rem !important;
+}
+
+.d-panel-header .mat-expansion-indicator::after {
+  color: $text-light-color;
+}
+
+.d-panel-header.mat-expanded .mat-expansion-indicator::after {
+  color: $accent-color;
+}
+
+
+.context-menu {
+  position: absolute;
+  display: inline-block;
+  color:$text-light-color;
+  width:200px;
+}
+
+.context-menu-item {
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+  width:100%
+}

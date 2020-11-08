@@ -1,10 +1,10 @@
-$disabled-text-color: #616367;
 $primary-bg-color: #1f2227;
 $dark-bg-color: #1a1d21;
 $faded-border-color: rgba(255, 255, 255, 0.10);
 $accent-color: #2e71ff;
 
-$light-text-color: #e9e9eb;
+$text-light-color: #e9e9eb;
+$text-disabled-color: #616367;
 
 
 @mixin transition {
