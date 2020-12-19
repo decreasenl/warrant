@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen, Menu, Notification } from 'electron';
+import { app, BrowserWindow, screen, Notification, Menu, MenuItem, shell} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -17,6 +17,7 @@ function createWindow(): BrowserWindow {
     y: 0,
     width: size.width,
     height: size.height,
+    titleBarStyle: 'hidden',
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
@@ -37,16 +38,26 @@ function createWindow(): BrowserWindow {
     }));
   }
 
-  Menu.setApplicationMenu(null);
+// Menu.setApplicationMenu(null);
+const menu = new Menu()
 
-  let myNotification = new Notification();
-  myNotification.title = 'Oranges';
-  myNotification.body = 'Something happened!'
-  myNotification.on('click', () => {
-    console.log('CLICKED')
-  }); 
+menu.append(new MenuItem({
+  label: 'Print',
+  accelerator: 'Ctrl+P',
+  click: () => { 
+    shell
+   }
+}))
 
-  myNotification.show();
+menu.append(new MenuItem({
+  label:'CoinMarketCap',
+  click() { 
+      shell.openExternal('http://coinmarketcap.com')
+  },
+  accelerator: 'CmdOrCtrl+Shift+C'
+}))
+
+Menu.setApplicationMenu(menu);
 
   if (serve) {
     win.webContents.openDevTools();
@@ -87,6 +98,14 @@ try {
     if (win === null) {
       createWindow();
     }
+  });
+
+  app.whenReady().then(() => {
+    // Register a 'CommandOrControl+X' shortcut listener.
+    const ret = require('globalShortcut').register('CommandOrControl+X', (d) => {
+        
+    })
+
   });
 
 } catch (e) {

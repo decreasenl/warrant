@@ -14,6 +14,7 @@ function createWindow() {
         y: 0,
         width: size.width,
         height: size.height,
+        titleBarStyle: 'hidden',
         webPreferences: {
             nodeIntegration: true,
             allowRunningInsecureContent: (serve) ? true : false,
@@ -33,14 +34,23 @@ function createWindow() {
             slashes: true
         }));
     }
-    electron_1.Menu.setApplicationMenu(null);
-    var myNotification = new electron_1.Notification();
-    myNotification.title = 'Oranges';
-    myNotification.body = 'Something happened!';
-    myNotification.on('click', function () {
-        console.log('CLICKED');
-    });
-    myNotification.show();
+    // Menu.setApplicationMenu(null);
+    var menu = new electron_1.Menu();
+    menu.append(new electron_1.MenuItem({
+        label: 'Print',
+        accelerator: 'Ctrl+P',
+        click: function () {
+            electron_1.shell;
+        }
+    }));
+    menu.append(new electron_1.MenuItem({
+        label: 'CoinMarketCap',
+        click: function () {
+            electron_1.shell.openExternal('http://coinmarketcap.com');
+        },
+        accelerator: 'CmdOrCtrl+Shift+C'
+    }));
+    electron_1.Menu.setApplicationMenu(menu);
     if (serve) {
         win.webContents.openDevTools();
     }
@@ -73,6 +83,11 @@ try {
         if (win === null) {
             createWindow();
         }
+    });
+    electron_1.app.whenReady().then(function () {
+        // Register a 'CommandOrControl+X' shortcut listener.
+        var ret = require('globalShortcut').register('CommandOrControl+X', function (d) {
+        });
     });
 }
 catch (e) {
