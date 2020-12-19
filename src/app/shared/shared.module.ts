@@ -8,8 +8,8 @@ import { MatIconModule } from '@angular/material/icon'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { TranslateModule } from '@ngx-translate/core';
-import { MatTabsModule } from '@angular/material/tabs';
 
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCommonModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,13 +18,42 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatMenuModule } from '@angular/material/menu';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { WebviewDirective } from './directives/';
 
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 import { StoreConnectionDialogComponent } from './components/dialog/store-connection-dialog/store-connection-dialog.component';
-import { ViewConnectionsDialogComponent } from './components/dialog/view-connections-dialog/view-connections-dialog.component';
+
+var modules = [
+  BrowserModule,
+  BrowserAnimationsModule,
+  CommonModule,
+  TranslateModule,
+  FormsModule,
+  MatDialogModule,
+  MatInputModule,
+  MatIconModule,
+  MatFormFieldModule,
+  MatCommonModule,
+  MatButtonModule,
+  MatTabsModule,
+  MatListModule,  
+  MatSelectModule,
+  MatSnackBarModule,
+  MatAutocompleteModule,
+  ReactiveFormsModule,
+  MatExpansionModule,
+  MatMenuModule,
+  DragDropModule
+]
+
+var exportedComponents = [
+
+]
 
 @NgModule({
   declarations: [
@@ -32,31 +61,14 @@ import { ViewConnectionsDialogComponent } from './components/dialog/view-connect
     WebviewDirective,
     StoreConnectionDialogComponent,
     AutocompleteComponent,
-    ViewConnectionsDialogComponent
+    ...exportedComponents
   ],
   imports: [    
-    BrowserModule,
-    CommonModule,
-    TranslateModule,
-    FormsModule,
-    MatDialogModule,
-    MatInputModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatCommonModule,
-    MatButtonModule,
-    MatTabsModule,
-    MatListModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule
+    ...modules
   ],
   exports: [
-    TranslateModule,
-    WebviewDirective,
-    FormsModule,
-    BrowserAnimationsModule
+    ...modules,
+    ...exportedComponents
   ],
   entryComponents: [
     StoreConnectionDialogComponent
