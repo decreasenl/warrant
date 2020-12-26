@@ -2,82 +2,63 @@
 <nav class="navbar nav-horizontal">
   <div class="col-3 col-md-2">
     <!-- <button type="button" class="btn btn-outline-warning d-primary-btn">Database</button> -->
-    <span class="selected-database" data-toggle="modal" data-target="#databaseModel" (click)="openDialog()">Decrease Database</span>
+    <span class="selected-database" data-toggle="modal" data-target="#databaseModel">[Active Database]</span>
   </div>
   <div class="nav-content mr-auto col-10 p-0 m-0">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home">
-
           Home
-
           <i class="fa fa-times"></i>
-
+          <mat-icon aria-hidden="false" aria-label="Example home icon">clear</mat-icon>
         </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile">Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact">Contact</a>
       </li>
 
       <li class="nav-item" style="cursor:pointer">
-        <a class="nav-link" data-toggle="modal" data-target="#searchModel">Search</a>
+        <a class="nav-link" (click)="openAutocompleteDialog()">Search</a>
       </li>
     </ul>
-
   </div>
 </nav>
 
 <div class="container-fluid">
   <div class="row">
-    <div class="sidebar col-3 col-md-2">
-      <ul class="list-group">
-        <li class="list-group-item active">Cras justo odio</li>
-        <li class="list-group-item">users</li>
+    <div class="sidebar col-3 col-md-2" (contextmenu)="openContextMenu($event)">
+
+      <mat-accordion [multi]="true">
+        <mat-expansion-panel *ngFor="let connection of connections" (contextmenu)="openContextMenu($event, connection); $event.stopPropagation()">
+          <mat-expansion-panel-header class="d-panel-header">
+            <mat-panel-title>
+              {{ connection.database }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p></p>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <!-- <ul class="list-group"> -->
+        <!-- <li class="list-group-item active">Cras justo odio</li> -->
+        <!-- <li class="list-group-item">users</li>
         <li class="list-group-item">chats</li>
-        <li class="list-group-item">messages</li>
-      </ul>
+        <li class="list-group-item">messages</li> -->
+      <!-- </ul> -->
+
     </div>
     <div class="col-9 col-md-10 main-content p-0">
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
-          <button mat-button color="primary">Primary</button>
-          <button mat-button color="accent">Accent</button>
-          <button mat-button color="warn">Warn</button>
-          <button mat-button disabled>Disabled</button>
-
-
-          <button mat-raised-button color="primary">Primary</button>
-          <button mat-raised-button color="accent">Accent</button>
-          <button mat-raised-button color="warn">Warn</button>
-          <button mat-raised-button disabled>Disabled</button>
-
-          <button mat-flat-button color="primary">Primary</button>
-          <button mat-flat-button color="accent">Accent</button>
-          <button mat-flat-button color="warn">Warn</button>
-
-        <!--   <table class="table table-striped table-dark">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-            </tbody>
-          </table> -->
-
+          <mat-table [dataSource]="dataSource" cdkDropListGroup style="display: none;">
+            <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">
+              <mat-header-cell *matHeaderCellDef>
+                {{ column.field }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row" > {{ row[column.field] }}  </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns" id="header-row-container"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+       
 
         </div>
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Profile tab</div>
@@ -86,39 +67,3 @@
     </div>
   </div>
 </div>
-
-
-
-<!-- Database Modal -->
-<div class="modal fade" id="databaseModel" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- End Search Modal -->
-
-<!-- Search Modal -->
-<div class="modal fade" id="searchModel" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <select class="form-control form-control-lg autocomplete">
-        <option>Large select</option>
-      </select>
-    </div>
-  </div>
-</div>
-<!-- End Search Modal -->

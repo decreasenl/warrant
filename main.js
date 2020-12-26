@@ -34,23 +34,6 @@ function createWindow() {
             slashes: true
         }));
     }
-    // Menu.setApplicationMenu(null);
-    var menu = new electron_1.Menu();
-    menu.append(new electron_1.MenuItem({
-        label: 'Print',
-        accelerator: 'Ctrl+P',
-        click: function () {
-            electron_1.shell;
-        }
-    }));
-    menu.append(new electron_1.MenuItem({
-        label: 'CoinMarketCap',
-        click: function () {
-            electron_1.shell.openExternal('http://coinmarketcap.com');
-        },
-        accelerator: 'CmdOrCtrl+Shift+C'
-    }));
-    electron_1.Menu.setApplicationMenu(menu);
     if (serve) {
         win.webContents.openDevTools();
     }
@@ -83,11 +66,6 @@ try {
         if (win === null) {
             createWindow();
         }
-    });
-    electron_1.app.whenReady().then(function () {
-        // Register a 'CommandOrControl+X' shortcut listener.
-        var ret = require('globalShortcut').register('CommandOrControl+X', function (d) {
-        });
     });
 }
 catch (e) {

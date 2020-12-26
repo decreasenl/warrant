@@ -1,3 +1,4 @@
+import { Color, Titlebar } from 'custom-electron-titlebar';
 import { app, BrowserWindow, screen, Notification, Menu, MenuItem, shell} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
@@ -38,27 +39,6 @@ function createWindow(): BrowserWindow {
     }));
   }
 
-// Menu.setApplicationMenu(null);
-const menu = new Menu()
-
-menu.append(new MenuItem({
-  label: 'Print',
-  accelerator: 'Ctrl+P',
-  click: () => { 
-    shell
-   }
-}))
-
-menu.append(new MenuItem({
-  label:'CoinMarketCap',
-  click() { 
-      shell.openExternal('http://coinmarketcap.com')
-  },
-  accelerator: 'CmdOrCtrl+Shift+C'
-}))
-
-Menu.setApplicationMenu(menu);
-
   if (serve) {
     win.webContents.openDevTools();
   }
@@ -75,7 +55,6 @@ Menu.setApplicationMenu(menu);
 }
 
 try {
-
   app.allowRendererProcessReuse = true;
 
   // This method will be called when Electron has finished
@@ -98,14 +77,6 @@ try {
     if (win === null) {
       createWindow();
     }
-  });
-
-  app.whenReady().then(() => {
-    // Register a 'CommandOrControl+X' shortcut listener.
-    const ret = require('globalShortcut').register('CommandOrControl+X', (d) => {
-        
-    })
-
   });
 
 } catch (e) {

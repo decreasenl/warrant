@@ -1,36 +1,48 @@
 import { Injectable } from '@angular/core';
-import { Connection } from '../interfaces/connection.interface';
+import { Observable, of } from 'rxjs';
+
 import { ElectronService } from './electron.service';
-import { Observable } from 'rxjs';
+
+import { ConnectionConfig } from '../interfaces/connection-config.interface';
+import { Connection } from '../interfaces/connection.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConnectionService {
 
-  connections: Array<Connection> = [];
-  activeConnection: Connection;
-  connection: Observable<any>;
+  connections: Array<ConnectionConfig> = [];
+  activeConfiguration: ConnectionConfig;
   library: any;
+
+  connection: Connection;
 
   constructor(public electronService: ElectronService) {
     if(this.electronService.isElectron) {
       
-    }	
+    }
   }
 
-  getConnections(): Array<Connection> {
+  clear() {
+    window.localStorage.removeItem('connections')
+  }
+
+  getConnections(): Array<ConnectionConfig> {
     const connections = window.localStorage.getItem('connections');
-    return this.connection = connections && connections.length ? JSON.parse(connections) : [];
+    return this.connections = connections && connections.length ? JSON.parse(connections) : [];
   }
 
-  connect(connection: Connection, onResult = Function) {
-    this.activeConnection = connection;
+  getConnection(host: string, type: string) {
+    console.log(this.getConnections());
+    return this.getConnections().find((c: ConnectionConfig) => c.host === host && c.type === type);
+  }
 
+  connect(connection: ConnectionConfig, onResult: (isConnected: Observable<any>) => void) {
+    this.activeConfiguration = connection;
     return onResult(this[connection.type]());
   }
 
-  saveConnection(connection: Connection): Array<Connection> {
+  saveConnection(connection: ConnectionConfig): void {
     this.getConnections();
 
     this.connections = [
@@ -39,8 +51,6 @@ export class ConnectionService {
     ]
 
     window.localStorage.setItem('connections', JSON.stringify(this.connections))
-
-    return this.getConnections();
   }
 
   sql() {
@@ -49,17 +59,8 @@ export class ConnectionService {
 
   mysql(): Observable<any> {
     const library = this.electronService.findProcess('mysql');
+    this.connection = library.instance.createConnection(this.activeConfiguration);
 
-    return new Observable(observer => {
-      const connection = library.createConnection(this.activeConnection);
-
-      connection.connect((error) => {
-        if(error) {
-          console.error(error)
-        }
-        console.log(connection);
-        observer.next(connection);
-      });
-    })
+    return of(this.connection);
   }
 }
