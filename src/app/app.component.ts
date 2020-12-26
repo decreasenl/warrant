@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
-import { AppConfig } from '../environments/environment';
 import { Titlebar, Color } from 'custom-electron-titlebar'
 
 
@@ -16,7 +15,6 @@ export class AppComponent {
     private translate: TranslateService
   ) {
     translate.setDefaultLang('en');
-    console.log('AppConfig', AppConfig);
 
     if (electronService.isElectron) {
       console.log(process.env);
@@ -28,10 +26,12 @@ export class AppComponent {
     }
 
 
-const titleBar = new Titlebar({
-	backgroundColor: Color.fromHex('#383434')
-});
+    const titleBar = new Titlebar({
+      backgroundColor: Color.fromHex('#1f2227'),
+      icon: '/assets/icons/favicon.png',
+      titleHorizontalAlignment: 'left'
+    });
 
-titleBar.updateTitle();
+    titleBar.updateTitle();
   }
 }

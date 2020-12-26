@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, Menu, Notification } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -21,6 +21,7 @@ function createWindow(): BrowserWindow {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
     },
+    frame: false
   });
 
   if (serve) {
@@ -35,6 +36,17 @@ function createWindow(): BrowserWindow {
       slashes: true
     }));
   }
+
+  Menu.setApplicationMenu(null);
+
+  let myNotification = new Notification();
+  myNotification.title = 'Oranges';
+  myNotification.body = 'Something happened!'
+  myNotification.on('click', () => {
+    console.log('CLICKED')
+  }); 
+
+  myNotification.show();
 
   if (serve) {
     win.webContents.openDevTools();
