@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TestService } from './core/services/test.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-electron';
+
+
+  /**
+   *
+   */
+  constructor(private testService: TestService){
+    testService.oranges();
+  }
 }
+
