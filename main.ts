@@ -1,4 +1,5 @@
-import { app, BrowserWindow, screen, Menu, Notification } from 'electron';
+import { Color, Titlebar } from 'custom-electron-titlebar';
+import { app, BrowserWindow, screen, Notification, Menu, MenuItem, shell} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -17,6 +18,7 @@ function createWindow(): BrowserWindow {
     y: 0,
     width: size.width,
     height: size.height,
+    titleBarStyle: 'hidden',
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
@@ -37,17 +39,6 @@ function createWindow(): BrowserWindow {
     }));
   }
 
-  Menu.setApplicationMenu(null);
-
-  let myNotification = new Notification();
-  myNotification.title = 'Oranges';
-  myNotification.body = 'Something happened!'
-  myNotification.on('click', () => {
-    console.log('CLICKED')
-  }); 
-
-  myNotification.show();
-
   if (serve) {
     win.webContents.openDevTools();
   }
@@ -64,7 +55,6 @@ function createWindow(): BrowserWindow {
 }
 
 try {
-
   app.allowRendererProcessReuse = true;
 
   // This method will be called when Electron has finished

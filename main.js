@@ -14,6 +14,7 @@ function createWindow() {
         y: 0,
         width: size.width,
         height: size.height,
+        titleBarStyle: 'hidden',
         webPreferences: {
             nodeIntegration: true,
             allowRunningInsecureContent: (serve) ? true : false,
@@ -33,14 +34,6 @@ function createWindow() {
             slashes: true
         }));
     }
-    electron_1.Menu.setApplicationMenu(null);
-    var myNotification = new electron_1.Notification();
-    myNotification.title = 'Oranges';
-    myNotification.body = 'Something happened!';
-    myNotification.on('click', function () {
-        console.log('CLICKED');
-    });
-    myNotification.show();
     if (serve) {
         win.webContents.openDevTools();
     }

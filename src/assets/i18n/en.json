@@ -1,7 +1,32 @@
 {
   "PAGES": {
-      "HOME": {
-          "TITLE": "App works !"
-      }
-  }
+    "DATABASE": {
+      "Connections": "Connections"
+    }
+  },
+  "Connections": "Connections",
+  "Connection": "Connection",
+  "Connection.Add": "Add connection",
+  "Connection.Edit": "Edit connection",
+  "edit": "edit",
+  "add": "add",
+  "cancel": "Cancel",
+  "Save": "Save",
+  "Host": "Host",
+  "Type": "Type",
+  "Database": "Database",
+  "Port": "Port",
+  "Tag": "Tag",
+  "Username": "Username",
+  "Password": "Password",
+  "Host.description": "Ip-Address or host name",
+  "Connection.type": "Connection type",
+  "Database.description": "The name of the database",
+  "Port.description": "Database port",
+  "Development": "Development",
+  "Testing": "Testing",
+  "Production": "Production",
+  "Authentication": "Authentication",
+  "Connection.details": "Connnection details",
+  "Search.placeholder": "Search for connections, databases or tables"
 }
