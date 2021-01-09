@@ -1,47 +1,49 @@
-const { app, BrowserWindow, electron } = require('electron')
+const { app, BrowserWindow, electron } = require("electron");
 const url = require("url");
 const path = require("path");
 
-let mainWindow
+let mainWindow;
 
-function createWindow () {
+function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1920,
+    height: 1080,
+    // frame: false,
     webPreferences: {
-      nodeIntegration: true
-    }
-  })
+      nodeIntegration: true,
+    },
+  });
 
+  mainWindow.setMenuBarVisibility(false);
+  mainWindow.setTitle;
   mainWindow.loadURL(
     // url.format({
     //   pathname: path.join(__dirname, `/dist/index.html`),
     //   protocol: "file:",
     //   slashes: true
     // })
-    'http://localhost:4200/'
+    "http://localhost:4200/"
   );
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools();
 
-  mainWindow.on('closed', function () {
-    mainWindow = null
-  })
+  mainWindow.on("closed", function () {
+    mainWindow = null;
+  });
 }
 
-app.on('ready', createWindow)
+app.on("ready", createWindow);
 
-app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit()
-})
+app.on("window-all-closed", function () {
+  if (process.platform !== "darwin") app.quit();
+});
 
-app.on('activate', function () {
-  if (mainWindow === null) createWindow()
-})
-
+app.on("activate", function () {
+  if (mainWindow === null) createWindow();
+});
 
 // Enable live reload for Electron too
-require('electron-reload')(__dirname, {
-    // Note that the path to electron may vary according to the main file
-    electron: require(`${__dirname}/node_modules/electron`)
+require("electron-reload")(__dirname, {
+  // Note that the path to electron may vary according to the main file
+  electron: require(`${__dirname}/node_modules/electron`),
 });

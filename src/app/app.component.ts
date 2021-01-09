@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { TestService } from './core/services/test.service';
+// import { TranslateService } from '@ngx-translate/core';
+import { Titlebar, Color } from 'custom-electron-titlebar';
+import { Menu, MenuItem, shell } from 'electron';
+
+import { ProcessService } from './core/services/process.service';
 
 @Component({
   selector: 'app-root',
@@ -7,14 +11,20 @@ import { TestService } from './core/services/test.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-electron';
 
+  constructor(
+    public processService: ProcessService,
+    // private translate: TranslateService
+  ) {
+    // translate.setDefaultLang('en');
 
-  /**
-   *
-   */
-  constructor(private testService: TestService){
-    testService.oranges();
+    if (processService.isElectron) {
+      console.log(process.env);
+      console.log('Mode electron');
+      console.log(processService.ipcRenderer);
+
+    } else {
+      console.log('Mode web');
+    }
   }
 }
-
