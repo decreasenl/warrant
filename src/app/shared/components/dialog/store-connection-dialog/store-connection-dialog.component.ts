@@ -31,8 +31,8 @@ export class StoreConnectionDialogComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data.configuration) {
-      const invalidConnection = this.connectionService.getConnections().find(c => c.database !== this.data.configuration.database);
-      if (invalidConnection) {
+      const existingConnection = this.connectionService.getConnections().find(c => c.database !== this.data.configuration.database);
+      if (existingConnection) {
         this.notification.error('This connection is invalid.');
         return;
       }
@@ -49,12 +49,13 @@ export class StoreConnectionDialogComponent implements OnInit {
     })
   }
 
-  saveConnection() {
+  saveConnection(): void {
     const connection: ConnectionConfig = this.connectionForm.value;
-    
+
     if (this.connectionForm.valid) {
       this.connectionService.saveConnection(connection);
       this.notification.succes('Connection was saved');
+      this.dialogRef.close();
     }
   }
 

@@ -9,7 +9,7 @@ import * as fs from 'fs';
 @Injectable({
   providedIn: 'root'
 })
-export class ElectronService {
+export class ProcessService {
   ipcRenderer: typeof ipcRenderer;
   webFrame: typeof webFrame;
   remote: typeof remote;
@@ -34,10 +34,10 @@ export class ElectronService {
     }
   }
 
-  findProcess(lib: string) {
+  findProcess(lib: string): any {
     if (!this.processes.find(p => p.lib === lib)) {
-      var requiredInstance = (<any>window).require(lib);
-      this.processes.push({ lib: lib, instance: requiredInstance });
+      const requiredInstance = (window as any).require(lib);
+      this.processes.push({ lib, instance: requiredInstance });
     }
     return this.processes.find(p => p.lib === lib);
   }

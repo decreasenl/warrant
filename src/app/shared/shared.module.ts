@@ -2,14 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatInputModule } from '@angular/material/input'
+import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { MatIconModule } from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslateModule } from '@ngx-translate/core';
 
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCommonModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,8 +28,10 @@ import { WebviewDirective } from './directives/';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 import { StoreConnectionDialogComponent } from './components/dialog/store-connection-dialog/store-connection-dialog.component';
+import { ResizeableTableComponent } from './components/resizeable-table/resizeable-table.component';
+import { MatSortModule } from '@angular/material/sort';
 
-var modules = [
+const modules = [
   BrowserModule,
   BrowserAnimationsModule,
   CommonModule,
@@ -41,19 +44,22 @@ var modules = [
   MatCommonModule,
   MatButtonModule,
   MatTabsModule,
-  MatListModule,  
+  MatListModule,
   MatSelectModule,
   MatSnackBarModule,
   MatAutocompleteModule,
   ReactiveFormsModule,
   MatExpansionModule,
+  MatButtonModule,
+  MatTableModule,
+  MatSortModule,
   MatMenuModule,
   DragDropModule
-]
+];
 
-var exportedComponents = [
-
-]
+const exportedComponents = [
+  ResizeableTableComponent
+];
 
 @NgModule({
   declarations: [
@@ -63,7 +69,7 @@ var exportedComponents = [
     AutocompleteComponent,
     ...exportedComponents
   ],
-  imports: [    
+  imports: [
     ...modules
   ],
   exports: [

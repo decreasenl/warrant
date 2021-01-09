@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { SnackbarComponent } from '../../shared/components/notification/snackbar/snackbar.component';
 
@@ -10,35 +10,33 @@ export class Notification {
   constructor(
     private snackBar: MatSnackBar
   ) {}
-  
-  succes(message: string) {
+
+  succes(message: string): void {
     this.showMessage(message);
   }
 
-  error(message: string) {
+  error(message: string): void {
     this.showMessage(message, false)
   }
 
-  text(message: string) {
+  text(message: string): void {
     this.snackBar.openFromComponent(SnackbarComponent, {
       data: {
-        message: message
+        message
       },
       panelClass: 'dec-notification',
       duration: 5000
     })
   }
 
-  showMessage(message: string, success = true) {
-    this.snackBar.openFromComponent(SnackbarComponent, {      
+  showMessage(message: string, success = true): void {
+    this.snackBar.openFromComponent(SnackbarComponent, {
       data: {
-        message: message,
-        success: success
+        message,
+        success
       },
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-      panelClass: 'dec-notification', 
+      panelClass: 'dec-notification',
       duration: 5000
-    })
+    });
   }
 }

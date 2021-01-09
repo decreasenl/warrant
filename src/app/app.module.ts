@@ -17,8 +17,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DatabaseModule } from './database/database.module';
 
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 // AoT requires an exported function for factories
@@ -31,7 +32,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   imports: [
     FormsModule,
     HttpClientModule,
-    NgbModule,
+    // NgbModule,
     CoreModule,
     SharedModule,
     DatabaseModule,
@@ -42,7 +43,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

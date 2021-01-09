@@ -11,7 +11,7 @@ export class ContextMenu {
   private menu: object;
 
   constructor(private rendererFactory: RendererFactory2) {
-    this.renderer = this.rendererFactory.createRenderer(null, null); 
+    this.renderer = this.rendererFactory.createRenderer(null, null);
   }
 
   public show(contextConfig: ContextMenuConfig): void {
@@ -20,14 +20,14 @@ export class ContextMenu {
     }
 
     this.menu = this.renderer.createElement('mat-menu');
-    
+
     this.renderer.addClass(this.menu, 'context-menu');
     this.renderer.setStyle(this.menu, 'top', `${contextConfig.top}px`);
     this.renderer.setStyle(this.menu, 'left', `${contextConfig.left}px`);
-    
+
     contextConfig.options.forEach(option => {
-      
-      var button = this.renderer.createElement('button');
+
+      const button = this.renderer.createElement('button');
       this.renderer.listen(button, 'click', (...args: Array<any>) => {
         this.executeCallback(option.method, option, ...args);
       });
@@ -48,8 +48,8 @@ export class ContextMenu {
 
   }
 
-  private executeCallback(method: Function,  ...args: Array<any>) {
-    return method(args)
+  private executeCallback(method: Function, ...args: Array<any>): void {
+    return method(args);
   }
 
   public close(): void {

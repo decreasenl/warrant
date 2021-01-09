@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { ElectronService } from './electron.service';
+import { ProcessService } from './process.service';
 
 import { ConnectionConfig } from '../interfaces/connection-config.interface';
 import { Connection } from '../interfaces/connection.interface';
@@ -17,8 +17,8 @@ export class ConnectionService {
 
   connection: Connection;
 
-  constructor(public electronService: ElectronService) {
-    if(this.electronService.isElectron) {
+  constructor(public processService: ProcessService) {
+    if(this.processService.isElectron) {
       
     }
   }
@@ -54,11 +54,11 @@ export class ConnectionService {
   }
 
   sql() {
-    this.library = this.electronService.findProcess('mysql');
+    this.library = this.processService.findProcess('mysql');
   }
 
   mysql(): Observable<any> {
-    const library = this.electronService.findProcess('mysql');
+    const library = this.processService.findProcess('mysql');
     this.connection = library.instance.createConnection(this.activeConfiguration);
 
     return of(this.connection);

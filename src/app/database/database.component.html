@@ -48,21 +48,13 @@
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
-          <mat-table [dataSource]="dataSource" cdkDropListGroup style="display: none;">
-            <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">
-              <mat-header-cell *matHeaderCellDef>
-                {{ column.field }}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let row" > {{ row[column.field] }}  </mat-cell>
-            </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns" id="header-row-container"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          </mat-table>
-       
+          <warrant-resizeable-table [columns]="displayedColumns" [dataSource]="dataSource">
+            
+          </warrant-resizeable-table>
 
         </div>
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Profile tab</div>
-        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+        <!-- <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Profile tab</div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div> -->
       </div>
     </div>
   </div>

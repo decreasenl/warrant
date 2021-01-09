@@ -9,10 +9,10 @@ import { ConnectionConfig } from '../core/interfaces/connection-config.interface
 import { ConnectionService } from '../core/services/connection.service';
 import { ContextMenu } from '../core/classes/context-menu.class';
 import { Search } from '../core/classes/search.class';
-import { TranslatePipe } from '@ngx-translate/core';
 
 import { ADD, EDIT } from '../core/constants/types';
-import { ElectronService } from '../core/services/electron.service';
+import { ProcessService } from '../core/services/process.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 @Component({
@@ -20,68 +20,73 @@ import { ElectronService } from '../core/services/electron.service';
   templateUrl: './database.component.html',
   styleUrls: ['./database.component.scss']
 })
-export class DatabaseComponent implements OnInit  {
+export class DatabaseComponent implements OnInit {
 
-  columns: any[] = [
-    { field: 'position', width: 100 },
-    { field: 'name', width: 350, },
-    { field: 'weight', width: 250, },
-    { field: 'symbol', width: 100, }
+  dataSource = [
+    { id: 1, name: 'Frits', email: 'Frits@mail.com', enabled: true },
+    { id: 2, name: 'John', email: 'John@mail.com', enabled: true },
+    { id: 3, name: 'Mike', email: 'Mike@mail.com', enabled: true },
+    { id: 4, name: 'Paul', email: 'Paul@mail.com', enabled: true },
+    { id: 5, name: 'Mitch', email: 'Mitch@mail.com', enabled: true },
+    { id: 6, name: 'Marcel', email: 'Marcel@mail.com', enabled: true },
   ];
 
-  displayedColumns: string[] = this.columns.map(c => c.field);
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'email',
+    'enabled'
+  ];
+
   connections: Array<ConnectionConfig> = [];
 
   constructor(
     public dialog: MatDialog,
-    private electronService: ElectronService,
+    private processService: ProcessService,
     private connectionService: ConnectionService,
     private contextMenu: ContextMenu,
     private translatePipe: TranslatePipe,
     private search: Search
   ) {
 
-    if (this.electronService.isElectron) {
+    if (this.processService.isElectron) {
       this.connections = this.connectionService.getConnections();
     }
   }
 
   ngOnInit(): void { }
 
-  openTest(...args: Array<any>) {
-    // console.log(args)
-  }
 
-  openContextMenu($event: MouseEvent, connection?: ConnectionConfig) {
+  openContextMenu($event: MouseEvent, connection?: ConnectionConfig): void {
     this.contextMenu.show({
       top: $event.clientY,
       left: $event.clientX,
       options: [
         {
           type: ADD,
-          label: this.translatePipe.transform('Connection.Add'), 
+          label: this.translatePipe.transform('Connection.Add'),
           method: (...args: Array<any>) => this.openStoreConnectionDialog()
-         },
+        },
         {
           type: EDIT,
-          label: this.translatePipe.transform('Connection.Edit'), 
+          label: this.translatePipe.transform('Connection.Edit'),
           method: () => this.openStoreConnectionDialog(connection)
         }
       ].filter(option => connection == null ? option.type !== EDIT : option)
     });
   }
 
-  openAutocompleteDialog() {
+  openAutocompleteDialog(): void {
     this.dialog.open(AutocompleteComponent, {
       panelClass: 'decrease-autocomplete',
       width: '800px'
     });
   }
 
-  openStoreConnectionDialog(configuration: ConnectionConfig = null) {
+  openStoreConnectionDialog(configuration?: ConnectionConfig): void {
     this.dialog.open(StoreConnectionDialogComponent, {
       data: {
-        configuration: configuration
+        configuration
       },
       width: '525px',
       height: '590px',
@@ -89,20 +94,19 @@ export class DatabaseComponent implements OnInit  {
     });
   }
 
-  getDatabases() {
-    console.log(this.connectionService.getConnection('mysql', 'mysql'))
-    this.connectionService.connect(this.connectionService.getConnection('localhost', 'mysql'), this.connected)
+  getDatabases(): void {
+    this.connectionService.connect(this.connectionService.getConnection('localhost', 'mysql'), this.connected);
   }
 
   connected = (connection: Observable<any>) => {
     connection.subscribe(con => {
-      console.log(' orange s')
+      console.log(' orange s');
       console.log(con);
-      con.query(`show databases;`, (err, res, fields) => {
-        console.log(err);
-        console.log(res);
-        console.log(fields);
-      })
-    })
+      // con.query(`show databases;`, (err, res, fields) => {
+      //   console.log(err);
+      //   console.log(res);
+      //   console.log(fields);
+      // })
+    });
   }
 }

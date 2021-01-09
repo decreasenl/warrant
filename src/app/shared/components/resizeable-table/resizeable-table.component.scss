@@ -1,0 +1,54 @@
+@import "src/assets/variables.scss";
+
+.mat-table {
+  width: 100%;
+  overflow: auto;
+}
+
+mat-cell,
+mat-footer-cell,
+mat-header-cell {
+  width: 200px;
+  flex: none;
+  justify-content: center;
+}
+
+.mat-table {
+  background: transparent;
+}
+
+.mat-table mat-cell:first-child {
+  padding-left: 0px;
+  border-left: 1px solid $faded-border-color;
+}
+
+.mat-table mat-cell:last-child {
+  padding-right: 0px;
+}
+
+.mat-table mat-header-cell:first-child {
+  padding-left: 0px;
+  border-left: 1px solid $faded-border-color;
+}
+
+.mat-table mat-header-cell:last-child {
+  padding-right: 0px;
+}
+
+.mat-table mat-header-cell {
+  // border-top: 1px solid $faded-border-color;
+  border-right: 1px solid $faded-border-color;
+  border-bottom: 1px solid $faded-border-color;
+  // cursor: col-resize;
+}
+
+.mat-table mat-cell {
+  border-right: 1px solid $faded-border-color;
+  border-bottom: 1px solid $faded-border-color;
+}
+
+.mat-table,
+mat-cell,
+mat-header-cell {
+  color: $text-disabled-color;
+}
