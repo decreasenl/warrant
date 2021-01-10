@@ -73,13 +73,13 @@ body {
   border-top: 2px solid $accent-color;
 
   border-bottom: none;
-  color: #fbfbfb;
+  color: $text-light-color;
 }
 
 .sidebar a:hover,
 .nav-horizontal .nav-item:hover,
 .nav-horizontal .nav-item:hover a {
-  color: #fbfbfb;
+  color: $text-light-color;
 }
 
 .nav-horizontal .nav-item:first-child .active {
@@ -112,7 +112,7 @@ body {
 }
 
 .sidebar .list-group-item.active {
-  color: #fbfbfb;
+  color: $text-light-color;
   border-right: 2px solid $accent-color;
   border-top: 1px solid $faded-border-color;
   border-bottom: 1px solid $faded-border-color;
@@ -130,12 +130,12 @@ body {
 .autocomplete:focus {
   background: $primary-bg-color;
   border: 1px solid $accent-color;
-  color: #fbfbfb;
+  color: $text-light-color;
 }
 
 .d-primary-btn {
   border-color: $accent-color;
-  color: #fbfbfb;
+  color: $text-light-color;
   background: $primary-bg-color;
 }
 
@@ -143,11 +143,11 @@ body {
 .d-primary-btn:focus {
   background: $accent-color;
   border-color: $accent-color;
-  color: #fbfbfb;
+  color: $text-light-color;
 }
 
 .selected-database {
-  color: #fbfbfb;
+  color: $text-light-color;
   cursor: pointer;
   padding-left: 5px;
 }
@@ -158,12 +158,12 @@ body {
 }
 
 .modal .modal-content {
-  color: #fbfbfb;
+  color: $text-light-color;
   background: $primary-bg-color;
 }
 
 .modal .close {
-  color: #fbfbfb;
+  color: $text-light-color;
 }
 
 .modal .close:hover {

@@ -50,5 +50,6 @@ mat-header-cell {
 .mat-table,
 mat-cell,
 mat-header-cell {
-  color: $text-disabled-color;
+  // color: $text-disabled-color;
+  color: $text-light-color;
 }
