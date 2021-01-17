@@ -14,7 +14,7 @@ nav {
 }
 
 body {
-  color: #616367;
+  color: $text-disabled-color;
 }
 
 //  .cdk-header-cell {
@@ -26,8 +26,10 @@ body {
   width: 100%;
 }
 
+
 .nav-horizontal {
   padding: 0px;
+  background-color: $dark-bg-color;
 }
 
 .nav-horizontal .nav-item a {
@@ -46,10 +48,10 @@ body {
 }
 
 .nav-horizontal a {
-  color: #616367;
+  color: $text-disabled-color;
 }
 
-.nav-horizontal .nav-content .nav-tabs {
+.nav-horizontal.nav-tabs {
   border-bottom: 1px solid $faded-border-color;
 }
 
@@ -91,6 +93,7 @@ body {
 }
 
 .sidebar {
+  min-width:150px;
   padding: 0px;
   background: $primary-bg-color;
 
@@ -98,32 +101,6 @@ body {
   min-height: 100vh;
   /* Todo :: calculate max height using scss calc */
   border-right: 1px solid $faded-border-color;
-}
-
-.sidebar .list-group-item {
-  border-radius: 0px;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -o-border-radius: 0;
-  border-radius: 0;
-  border: 0;
-  color: #616367;
-  background: transparent;
-}
-
-.sidebar .list-group-item.active {
-  color: $text-light-color;
-  border-right: 2px solid $accent-color;
-  border-top: 1px solid $faded-border-color;
-  border-bottom: 1px solid $faded-border-color;
-}
-
-.no-border {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -o-border-radius: 0;
-  border-radius: 0;
-  border: 0;
 }
 
 .autocomplete,
@@ -150,6 +127,8 @@ body {
   color: $text-light-color;
   cursor: pointer;
   padding-left: 5px;
+  line-height: 47px;
+  text-align: center;
 }
 
 .modal .modal-header,

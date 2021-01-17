@@ -1,3 +1,5 @@
+import { Http2ServerRequest } from "http2";
+
 /**
  * Returned a chunked array in the desired size.
  */
@@ -12,4 +14,8 @@ export function _chunk(arr: Array<any>, size: number): Array<Array<any>> {
  */
 export function debug(): void {
   window.addEventListener('keydown', function(e){ if(e.key === 'F8') {debugger;} }, false);
+}
+
+export function getTarget($event: MouseEvent): HTMLElement {
+  return ($event.target as HTMLElement);
 }

@@ -1,11 +1,26 @@
-<!-- As a link -->
-<nav class="navbar nav-horizontal">
-  <div class="col-3 col-md-2">
-    <!-- <button type="button" class="btn btn-outline-warning d-primary-btn">Database</button> -->
-    <span class="selected-database" data-toggle="modal" data-target="#databaseModel">[Active Database]</span>
-  </div>
-  <div class="nav-content mr-auto col-10 p-0 m-0">
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+<div class="main" style="display:flex; height:100%;">
+
+  <nav class="d-nav" style="width:auto; float:left; height:100%;" resizeable (contextmenu)="openContextMenu($event)">
+
+    <div class="database" style="height:47px;">
+      <span class="selected-database" data-toggle="modal" data-target="#databaseModel">[Active Database]</span>
+    </div>
+    
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel *ngFor="let connection of connections" (contextmenu)="openContextMenu($event, connection); $event.stopPropagation()">
+        <mat-expansion-panel-header class="d-panel-header">
+          <mat-panel-title>
+            {{ connection.database }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p></p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </nav>
+  
+  <div class="d-content" style="flex-grow: 1; height:100%;">
+  
+    <ul class="nav nav-horizontal nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home">
           Home
@@ -13,49 +28,19 @@
           <mat-icon aria-hidden="false" aria-label="Example home icon">clear</mat-icon>
         </a>
       </li>
-
+  
       <li class="nav-item" style="cursor:pointer">
         <a class="nav-link" (click)="openAutocompleteDialog()">Search</a>
       </li>
     </ul>
-  </div>
-</nav>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="sidebar col-3 col-md-2" (contextmenu)="openContextMenu($event)">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
-      <mat-accordion [multi]="true">
-        <mat-expansion-panel *ngFor="let connection of connections" (contextmenu)="openContextMenu($event, connection); $event.stopPropagation()">
-          <mat-expansion-panel-header class="d-panel-header">
-            <mat-panel-title>
-              {{ connection.database }}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <p></p>
-        </mat-expansion-panel>
-      </mat-accordion>
-
-      <!-- <ul class="list-group"> -->
-        <!-- <li class="list-group-item active">Cras justo odio</li> -->
-        <!-- <li class="list-group-item">users</li>
-        <li class="list-group-item">chats</li>
-        <li class="list-group-item">messages</li> -->
-      <!-- </ul> -->
+      <warrant-resizeable-table [columns]="displayedColumns" [dataSource]="dataSource">
+        
+      </warrant-resizeable-table>
 
     </div>
-    <div class="col-9 col-md-10 main-content p-0">
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
-          <warrant-resizeable-table [columns]="displayedColumns" [dataSource]="dataSource">
-            
-          </warrant-resizeable-table>
-
-        </div>
-        <!-- <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Profile tab</div>
-        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div> -->
-      </div>
-    </div>
+  
   </div>
 </div>

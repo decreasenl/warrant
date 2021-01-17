@@ -15,4 +15,12 @@ export class ResizeableTableComponent implements OnInit {
   ngOnInit(): void {
     console.log(this);
   }
+
+  // onResize($event: MouseEvent): void {
+  //   console.log($event);
+  // }
+
+  // ResizeColumn($event): void {
+  //   console.log($event)
+  // }
 }
