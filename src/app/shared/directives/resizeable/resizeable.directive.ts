@@ -1,15 +1,10 @@
-import { getTranslationDeclStmts } from '@angular/compiler/src/render3/view/template';
-import { AfterContentInit, Directive, ElementRef, HostListener, OnDestroy, OnInit, Output, Renderer2, RendererFactory2 } from '@angular/core';
-import { EventType } from 'custom-electron-titlebar/lib/common/dom';
-import { TouchBarScrubber } from 'electron';
-import { fromEvent, Observable, of } from 'rxjs';
-import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { getTarget } from 'src/app/core/helpers/helpers';
+import { AfterContentInit, Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Directive({
   selector: '[resizeable]'
 })
 export class ResizeableDirective implements AfterContentInit {
+  @Output() resized = new EventEmitter();
 
   height: number;
   width: number;
@@ -37,12 +32,14 @@ export class ResizeableDirective implements AfterContentInit {
     this.width += event.clientX - this.x;
     // this.height += event.clientY - this.y;
 
+    this.x = event.clientX;
+    // this.y = event.clientY;
+
     this.target.style.width = `${this.width}px`;
     // console.log(this.target.style)
     // this.target.style.height = `${this.height}px`;
 
-    this.x = event.clientX;
-    // this.y = event.clientY;
+    this.resized.emit(this.target);
   }
 
   @HostListener('document:mouseup', ['$event'])

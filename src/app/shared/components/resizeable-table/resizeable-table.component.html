@@ -2,7 +2,7 @@
   <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column">
     
     <!-- (mouseup)="ResizeColumn($event)" -->
-    <mat-header-cell *matHeaderCellDef resizeable>
+    <mat-header-cell *matHeaderCellDef resizeable (resized)="onResize($event)">
       <span> {{ column }} </span>
     </mat-header-cell>
 
@@ -11,5 +11,5 @@
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="columns" id="header-row-container"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: columns;" resizeable></mat-row>
+  <mat-row *matRowDef="let row; columns: columns;"></mat-row>
 </mat-table>

@@ -16,11 +16,13 @@ export class ResizeableTableComponent implements OnInit {
     console.log(this);
   }
 
-  // onResize($event: MouseEvent): void {
-  //   console.log($event);
-  // }
+  onResize($event: HTMLElement): void {
+    const resizedTarget = ($event as HTMLElement);
 
-  // ResizeColumn($event): void {
-  //   console.log($event)
-  // }
+    const column = Array.from(resizedTarget.classList).find(c => c.includes('cdk-column'));
+    const cells = resizedTarget.parentElement.parentElement.querySelectorAll(`mat-cell.${column}`);
+    cells.forEach(cell => {
+      (cell as HTMLElement).style.width = resizedTarget.style.width;
+    });
+  }
 }
