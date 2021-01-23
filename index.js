@@ -14,7 +14,6 @@ function createWindow() {
     },
   });
 
-  mainWindow.setMenuBarVisibility(false);
   mainWindow.setTitle;
   mainWindow.loadURL(
     // url.format({
