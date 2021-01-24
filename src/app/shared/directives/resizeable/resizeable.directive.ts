@@ -24,6 +24,14 @@ export class ResizeableDirective implements AfterContentInit {
 
   @HostListener('document:mousemove', ['$event'])
   drag(event: MouseEvent): void {
+
+    const { right } = this.target.getBoundingClientRect();
+    if (event.clientX > (right - this.resizeHandleSize) && event.clientX < right) {
+      this.target.style.cursor = 'col-resize';
+    } else {
+      this.target.style.cursor = 'default';
+    }
+
     if (!this.dragging) {
       return;
     }
@@ -54,13 +62,5 @@ export class ResizeableDirective implements AfterContentInit {
     }
     // this.y = event.clientY;
     event.stopPropagation();
-  }
-
-  @HostListener('mouseover', ['$event']) onMouseOver(event: MouseEvent): void {
-    this.target.style.resize = 'horizontal';
-  }
-
-  @HostListener('mouseleave', ['$event']) onMouseLeave(event: MouseEvent): void {
-    this.target.style.resize = 'none';
   }
 }
