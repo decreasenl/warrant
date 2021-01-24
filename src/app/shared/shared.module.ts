@@ -30,6 +30,7 @@ import { PageNotFoundComponent } from './components/pages/page-not-found/page-no
 import { StoreConnectionDialogComponent } from './components/dialog/store-connection-dialog/store-connection-dialog.component';
 import { ResizeableTableComponent } from './components/resizeable-table/resizeable-table.component';
 import { MatSortModule } from '@angular/material/sort';
+import { ResizeableDirective } from './directives/resizeable/resizeable.directive';
 
 const modules = [
   BrowserModule,
@@ -57,8 +58,9 @@ const modules = [
   DragDropModule
 ];
 
-const exportedComponents = [
-  ResizeableTableComponent
+const exported = [
+  ResizeableTableComponent,
+  ResizeableDirective
 ];
 
 @NgModule({
@@ -67,14 +69,14 @@ const exportedComponents = [
     WebviewDirective,
     StoreConnectionDialogComponent,
     AutocompleteComponent,
-    ...exportedComponents
+    ...exported,
   ],
   imports: [
     ...modules
   ],
   exports: [
     ...modules,
-    ...exportedComponents
+    ...exported
   ],
   entryComponents: [
     StoreConnectionDialogComponent

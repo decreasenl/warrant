@@ -39,7 +39,6 @@ mat-header-cell {
   // border-top: 1px solid $faded-border-color;
   border-right: 1px solid $faded-border-color;
   border-bottom: 1px solid $faded-border-color;
-  // cursor: col-resize;
 }
 
 .mat-table mat-cell {
@@ -50,5 +49,6 @@ mat-header-cell {
 .mat-table,
 mat-cell,
 mat-header-cell {
-  color: $text-disabled-color;
+  // color: $text-disabled-color;
+  color: $text-light-color;
 }
