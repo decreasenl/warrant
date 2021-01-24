@@ -1,10 +1,11 @@
-import { AfterContentInit, Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
+import { AfterContentInit, Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Directive({
   selector: '[resizeable]'
 })
 export class ResizeableDirective implements AfterContentInit {
   @Output() resized = new EventEmitter();
+  @Input() resizeHandleSize = 10;
 
   height: number;
   width: number;
@@ -19,11 +20,9 @@ export class ResizeableDirective implements AfterContentInit {
     this.target = (this.el.nativeElement as HTMLElement);
     this.height = this.target.offsetHeight;
     this.width = this.target.offsetWidth;
-
-    this.target.style.cursor = 'col-resize';
   }
 
-@HostListener('document:mousemove', ['$event'])
+  @HostListener('document:mousemove', ['$event'])
   drag(event: MouseEvent): void {
     if (!this.dragging) {
       return;
@@ -43,15 +42,25 @@ export class ResizeableDirective implements AfterContentInit {
   }
 
   @HostListener('document:mouseup', ['$event'])
-  drop(event: MouseEvent): void {
+  onMouseUp(event: MouseEvent): void {
     this.dragging = false;
-    // console.log(this.target)
   }
 
   @HostListener('mousedown', ['$event']) onResize(event: MouseEvent): void {
-    this.dragging = true;
-    this.x = event.clientX;
-    event.stopPropagation();
+    const { right } = this.target.getBoundingClientRect();
+    if (event.clientX > (right - this.resizeHandleSize) && event.clientX < right) {
+      this.dragging = true;
+      this.x = event.clientX;
+    }
     // this.y = event.clientY;
+    event.stopPropagation();
+  }
+
+  @HostListener('mouseover', ['$event']) onMouseOver(event: MouseEvent): void {
+    this.target.style.resize = 'horizontal';
+  }
+
+  @HostListener('mouseleave', ['$event']) onMouseLeave(event: MouseEvent): void {
+    this.target.style.resize = 'none';
   }
 }
