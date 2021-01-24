@@ -26,7 +26,6 @@ body {
   width: 100%;
 }
 
-
 .nav-horizontal {
   padding: 0px;
   background-color: $dark-bg-color;
@@ -88,20 +87,31 @@ body {
   border-left: none;
 }
 
-.main-content {
-  background: $primary-bg-color;
+.main {
+  display: flex;
+  height: 100%;
+  
+  .content {
+    background: $primary-bg-color;
+    flex-grow: 1;
+    height: 100%;
+  }
+
+  .sidebar {
+    min-width: 300px;
+    padding: 0px;
+    background: $primary-bg-color;
+
+    //  min-height: calc(100vh - 80px);
+    min-height: 100vh;
+    /* Todo :: calculate max height using scss calc */
+    border-right: 1px solid $faded-border-color;
+    width: auto;
+    float: left;
+    height: 100%;
+  }
 }
 
-.sidebar {
-  min-width:150px;
-  padding: 0px;
-  background: $primary-bg-color;
-
-  //  min-height: calc(100vh - 80px);
-  min-height: 100vh;
-  /* Todo :: calculate max height using scss calc */
-  border-right: 1px solid $faded-border-color;
-}
 
 .autocomplete,
 .autocomplete:focus {

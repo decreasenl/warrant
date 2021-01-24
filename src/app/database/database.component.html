@@ -1,6 +1,6 @@
-<div class="main" style="display:flex; height:100%;">
+<div class="main">
 
-  <nav class="d-nav" style="width:auto; float:left; height:100%;" resizeable (contextmenu)="openContextMenu($event)">
+  <nav class="sidebar" warrantResizeable (contextmenu)="openContextMenu($event)">
 
     <div class="database" style="height:47px;">
       <span class="selected-database" data-toggle="modal" data-target="#databaseModel">[Active Database]</span>
@@ -18,7 +18,7 @@
     </mat-accordion>
   </nav>
   
-  <div class="d-content" style="flex-grow: 1; height:100%;">
+  <div class="content">
   
     <ul class="nav nav-horizontal nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
