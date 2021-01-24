@@ -12,9 +12,7 @@ export class ResizeableTableComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-    console.log(this);
-  }
+  ngOnInit(): void { }
 
   onResize($event: HTMLElement): void {
     const resizedTarget = ($event as HTMLElement);

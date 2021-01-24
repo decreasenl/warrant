@@ -1,7 +1,7 @@
 import { AfterContentInit, Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Directive({
-  selector: '[resizeable]'
+  selector: '[warrantResizeable]'
 })
 export class ResizeableDirective implements AfterContentInit {
   @Output() resized = new EventEmitter();
