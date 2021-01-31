@@ -1,24 +1,24 @@
-
 @import "../../../../../assets/variables.scss";
 
-
-::ng-deep .decrease-panel .mat-dialog-container{
+::ng-deep .cdk-overlay-pane .mat-dialog-container {
   background-color: $dark-bg-color;
-  color: $text-light-color!important;
+  color: $text-light-color !important;
   // color: #edeeef!important;
+  width: 525px;
+  height: 590px;
 
   .mat-tab-label {
-    color:inherit
+    color: inherit;
   }
 }
 
 .mat-list-item {
-  color:$text-light-color
+  color: $text-light-color;
   // color:#edeeef
 }
 
 :host {
-  display:flex;
+  display: flex;
   flex-direction: column;
   height: 100%;
 }

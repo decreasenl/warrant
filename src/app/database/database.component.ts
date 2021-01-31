@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
-import { AutocompleteComponent } from '../shared/components/autocomplete/autocomplete.component';
 import { StoreConnectionDialogComponent } from '../shared/components/dialog/store-connection-dialog/store-connection-dialog.component';
 
 import { ConnectionConfig } from '../core/interfaces/connection-config.interface';
 import { ConnectionService } from '../core/services/connection.service';
 import { ContextMenu } from '../core/classes/context-menu.class';
-import { Search } from '../core/classes/search.class';
 
 import { ADD, EDIT } from '../core/constants/types';
 import { ProcessService } from '../core/services/process.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Search } from '../core/classes/search.class';
+import { AutocompleteComponent } from '../shared/components/autocomplete/autocomplete.component';
 
 
 @Component({
@@ -20,7 +20,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './database.component.html',
   styleUrls: ['./database.component.scss']
 })
-export class DatabaseComponent implements OnInit {
+export class DatabaseComponent extends Search implements OnInit {
 
   dataSource = [
     { id: 1, name: 'Frits', email: 'Frits@mail.com', enabled: true },
@@ -46,9 +46,8 @@ export class DatabaseComponent implements OnInit {
     private connectionService: ConnectionService,
     private contextMenu: ContextMenu,
     private translatePipe: TranslatePipe,
-    private search: Search
   ) {
-
+    super(dialog);
     if (this.processService.isElectron) {
       this.connections = this.connectionService.getConnections();
     }
@@ -76,26 +75,23 @@ export class DatabaseComponent implements OnInit {
     });
   }
 
-  openAutocompleteDialog(): void {
-    this.dialog.open(AutocompleteComponent, {
-      panelClass: 'decrease-autocomplete',
-      width: '800px'
-    });
-  }
-
   openStoreConnectionDialog(configuration?: ConnectionConfig): void {
     this.dialog.open(StoreConnectionDialogComponent, {
       data: {
         configuration
-      },
-      width: '525px',
-      height: '590px',
-      panelClass: 'decrease-panel'
+      }
     });
   }
 
   getDatabases(): void {
     this.connectionService.connect(this.connectionService.getConnection('localhost', 'mysql'), this.connected);
+  }
+
+  @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
+    console.log(event.ctrlKey, event.key);
+    if (event.ctrlKey && event.key === 'p') {
+      this.dialog.open(AutocompleteComponent);
+    }
   }
 
   connected = (connection: Observable<any>) => {
