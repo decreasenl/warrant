@@ -1,14 +1,15 @@
 import { Directive, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[warrantSelectable]'
+  selector: '[selectable]'
 })
 export class SelectableDirective {
 
   constructor() { }
 
-  @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-    console.log(event.ctrlKey, event.key);
+  @HostListener('document:mousemove', ['$event'])
+  oranges(event: MouseEvent): void {
+    console.log(event);
   }
 
 }

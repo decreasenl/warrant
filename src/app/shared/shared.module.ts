@@ -30,7 +30,6 @@ import { ResizeableTableComponent } from './components/resizeable-table/resizeab
 import { MatSortModule } from '@angular/material/sort';
 import { ResizeableDirective } from './directives/resizeable.directive';
 import { SelectableDirective } from './directives/selectable.directive';
-import { ShortcutDirective } from './directives/shortcut.directive';
 
 const modules = [
   BrowserModule,
@@ -70,7 +69,6 @@ const exported = [
     StoreConnectionDialogComponent,
     AutocompleteComponent,
     ...exported,
-    ShortcutDirective,
   ],
   imports: [
     ...modules
