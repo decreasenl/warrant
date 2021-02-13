@@ -100,4 +100,8 @@ export class DatabaseComponent implements OnInit {
       console.log(con);
     });
   }
+
+  OnDataChanged($event): void {
+    console.log($event);    
+  }
 }

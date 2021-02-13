@@ -32,7 +32,7 @@
 
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
-      <warrant-resizeable-table [columns]="displayedColumns" [dataSource]="dataSource">
+      <warrant-resizeable-table [columns]="displayedColumns" [dataSource]="dataSource" (dataChanged)="OnDataChanged($event)">
         
       </warrant-resizeable-table>
 

@@ -1,4 +1,5 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { AfterContentChecked, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { of } from 'rxjs';
 import { ProcessService } from 'src/app/core/services/process.service';
 
 @Component({
@@ -6,17 +7,32 @@ import { ProcessService } from 'src/app/core/services/process.service';
   templateUrl: './resizeable-table.component.html',
   styleUrls: ['./resizeable-table.component.scss']
 })
-export class ResizeableTableComponent {
+export class ResizeableTableComponent implements AfterContentChecked {
+
+  @ViewChild('textArea') textArea: ElementRef;
 
   @Input() columns: Array<string> = [];
   @Input() dataSource: Array<any> = [];
+
+  @Output() dataChanged = new EventEmitter();
 
   handled: Array<any> = [];
   dragging = false;
   selecting = false;
   editingCell: any = null;
-  
-  constructor(public processService: ProcessService) { }
+
+  constructor(public processService: ProcessService) { 
+    
+  }
+
+  ngAfterContentChecked(): void { 
+    of(this.textArea).subscribe(a => {
+      if (a) {
+        a.nativeElement.focus();
+      }
+    });
+  }
+
 
   onResize(target: HTMLElement): void {
     const column = Array.from(target.classList).find(t => t.includes('cdk-column'));
@@ -70,11 +86,11 @@ export class ResizeableTableComponent {
   }
 
   // Double click
-  editCell(row, column): void {
+  editCell(row: any, column: any): void {
     this.editingCell = this.getCellReference(row, column);
   }
 
-  getCellReference(row, column): string {
+  getCellReference(row: any, column: any): string {
     return Object.entries(row).find(e => e).toString() + column;
   }
 
@@ -92,12 +108,13 @@ export class ResizeableTableComponent {
       });
       return;
     }
+
     if (event.ctrlKey && event.key === 'c') {
       const spacing = `   `;
-      let headers = `${Object.keys(this.dataSource.find(d => d)).join(spacing)}\r\n`;
+      let copied = `${Object.keys(this.dataSource.find(d => d)).join(spacing)}\r\n`;
       const entries = this.dataSource.filter(d => d.selected).map(d => Object.values(d).join(spacing));
-      entries.forEach(e => headers = headers.concat(`${e}\r\n`));
-      this.processService.clipboard.writeText(headers);
+      entries.forEach(e => copied = copied.concat(`${e}\r\n`));
+      this.processService.clipboard.writeText(copied);
       return;
     }
 
@@ -107,7 +124,15 @@ export class ResizeableTableComponent {
     }
   }
 
-  @HostListener('document:keyup', ['$event']) onKeyUpHandler(event: KeyboardEvent): void { 
+  @HostListener('document:keyup', ['$event']) onKeyUpHandler(event: KeyboardEvent): void {
     this.selecting = false;
+  }
+
+  saveData($event: KeyboardEvent, row: any, column: any, value: string): void {
+    if ($event.ctrlKey && $event.key === 's') {
+      this.dataChanged.emit({
+        row, column, value
+      });
+    }
   }
 }
