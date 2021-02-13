@@ -20,7 +20,7 @@ import { AutocompleteComponent } from '../shared/components/autocomplete/autocom
   templateUrl: './database.component.html',
   styleUrls: ['./database.component.scss']
 })
-export class DatabaseComponent extends Search implements OnInit {
+export class DatabaseComponent implements OnInit {
 
   dataSource = [
     { id: 1, name: 'Frits', email: 'Frits@mail.com', enabled: true },
@@ -47,7 +47,6 @@ export class DatabaseComponent extends Search implements OnInit {
     private contextMenu: ContextMenu,
     private translatePipe: TranslatePipe,
   ) {
-    super(dialog);
     if (this.processService.isElectron) {
       this.connections = this.connectionService.getConnections();
     }
@@ -88,7 +87,6 @@ export class DatabaseComponent extends Search implements OnInit {
   }
 
   @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
-    console.log(event.ctrlKey, event.key);
     if (event.ctrlKey && event.key === 'p') {
       if (this.dialog.openDialogs) {
         this.dialog.openDialogs.forEach(dialog => dialog.close());
