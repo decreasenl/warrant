@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { StoreConnectionDialogComponent } from '../shared/components/dialog/store-connection-dialog/store-connection-dialog.component';
 
@@ -90,6 +90,9 @@ export class DatabaseComponent extends Search implements OnInit {
   @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     console.log(event.ctrlKey, event.key);
     if (event.ctrlKey && event.key === 'p') {
+      if (this.dialog.openDialogs) {
+        this.dialog.openDialogs.forEach(dialog => dialog.close());
+      }
       this.dialog.open(AutocompleteComponent);
     }
   }
@@ -98,11 +101,6 @@ export class DatabaseComponent extends Search implements OnInit {
     connection.subscribe(con => {
       console.log(' orange s');
       console.log(con);
-      // con.query(`show databases;`, (err, res, fields) => {
-      //   console.log(err);
-      //   console.log(res);
-      //   console.log(fields);
-      // })
     });
   }
 }
