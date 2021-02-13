@@ -24,7 +24,6 @@ export class ResizeableDirective implements AfterContentInit {
 
   @HostListener('document:mousemove', ['$event'])
   drag(event: MouseEvent): void {
-
     const { right } = this.target.getBoundingClientRect();
     if (event.clientX > (right - this.resizeHandleSize) && event.clientX < right) {
       this.target.style.cursor = 'col-resize';
