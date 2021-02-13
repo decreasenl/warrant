@@ -33,7 +33,6 @@ export class SelectableDirective implements AfterContentInit {
 
   @HostListener('document:mouseup', ['$event'])
   stop(event: MouseEvent): void {
-    console.log('release')
     this.dragging = false;
   }
 

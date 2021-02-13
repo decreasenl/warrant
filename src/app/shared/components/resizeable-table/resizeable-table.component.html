@@ -5,13 +5,24 @@
       <span> {{ column }} </span>
     </mat-header-cell>
 
-    <mat-cell *matCellDef="let row" > {{ row[column] }}  </mat-cell>
+    <mat-cell *matCellDef="let row" (dblclick)="editCell(row, column)"> 
+      <textarea *ngIf="getCellReference(row, column) === editingCell" [value]="row[column]">
+        
+      </textarea>
+
+      <span *ngIf="getCellReference(row, column) !== editingCell">
+        {{ row[column] }}
+      </span>
+    </mat-cell>
     
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="columns" id="header-row-container"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: columns;" (mousedown)="mousedown(row)" (mouseover)="mouseover(row)" [ngStyle]="{'background-color': row.selected ? 'green' : 'transparent'}"
-  
-  ></mat-row>
-  <!-- warrantSelectable (selected)="onSelected($event)" [selectableNodes]="['mat-row']" -->
+  <mat-row 
+    *matRowDef="let row; columns: columns;" 
+    (mousedown)="mousedown(row)" 
+    (mouseover)="mouseover(row)" 
+    [ngClass]="{'selected-row': row.selected }"
+  >
+  </mat-row>
 </mat-table>

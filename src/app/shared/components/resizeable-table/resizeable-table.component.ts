@@ -1,4 +1,5 @@
 import { Component, HostListener, Input } from '@angular/core';
+import { ProcessService } from 'src/app/core/services/process.service';
 
 @Component({
   selector: 'warrant-resizeable-table',
@@ -10,12 +11,12 @@ export class ResizeableTableComponent {
   @Input() columns: Array<string> = [];
   @Input() dataSource: Array<any> = [];
 
-  selected: Array<any> = [];
   handled: Array<any> = [];
-
   dragging = false;
-
-  constructor() { }
+  selecting = false;
+  editingCell: any = null;
+  
+  constructor(public processService: ProcessService) { }
 
   onResize(target: HTMLElement): void {
     const column = Array.from(target.classList).find(t => t.includes('cdk-column'));
@@ -38,10 +39,13 @@ export class ResizeableTableComponent {
   }
 
   mousedown(target: any): void {
-    this.resetSelection();
-    this.dragging = true;
-
-    this.select(target);
+    if (this.selecting) {
+      this.select(target);
+    } else {
+      this.dragging = true;
+      this.resetSelection();
+      this.select(target);
+    }
   }
 
   mouseover(target: any): void {
@@ -63,5 +67,47 @@ export class ResizeableTableComponent {
       r.selected = false;
       return r;
     });
+  }
+
+  // Double click
+  editCell(row, column): void {
+    this.editingCell = this.getCellReference(row, column);
+  }
+
+  getCellReference(row, column): string {
+    return Object.entries(row).find(e => e).toString() + column;
+  }
+
+  @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent): void { 
+    if (event.key === 'Escape') {
+      this.resetSelection();
+      this.editingCell = null;
+      return;
+    }
+
+    if (event.ctrlKey && event.key === 'a' && !this.editingCell) {
+      this.dataSource = this.dataSource.map(s => {
+        s.selected = true;
+        return s;
+      });
+      return;
+    }
+    if (event.ctrlKey && event.key === 'c') {
+      const spacing = `   `;
+      let headers = `${Object.keys(this.dataSource.find(d => d)).join(spacing)}\r\n`;
+      const entries = this.dataSource.filter(d => d.selected).map(d => Object.values(d).join(spacing));
+      entries.forEach(e => headers = headers.concat(`${e}\r\n`));
+      this.processService.clipboard.writeText(headers);
+      return;
+    }
+
+    if (event.ctrlKey) {
+      this.selecting = true;
+      return;
+    }
+  }
+
+  @HostListener('document:keyup', ['$event']) onKeyUpHandler(event: KeyboardEvent): void { 
+    this.selecting = false;
   }
 }

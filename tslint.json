@@ -99,8 +99,8 @@
     "template-no-negated-async": true,
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
-    "directive-selector": [true, "attribute", "warrant", "camelCase"],
-    "component-selector": [true, "element", "warrant", "kebab-case"],
+    "directive-selector": [false, "attribute", "warrant", "camelCase"],
+    "component-selector": [false, "element", "warrant", "kebab-case"],
     "ban-types": [
       "error",
       {

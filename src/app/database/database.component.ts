@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { StoreConnectionDialogComponent } from '../shared/components/dialog/store-connection-dialog/store-connection-dialog.component';
 
@@ -11,7 +11,6 @@ import { ContextMenu } from '../core/classes/context-menu.class';
 import { ADD, EDIT } from '../core/constants/types';
 import { ProcessService } from '../core/services/process.service';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Search } from '../core/classes/search.class';
 import { AutocompleteComponent } from '../shared/components/autocomplete/autocomplete.component';
 
 
