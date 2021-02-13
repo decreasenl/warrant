@@ -1,5 +1,4 @@
 import { Component, HostListener, Input } from '@angular/core';
-import { TouchBarScrubber } from 'electron';
 
 @Component({
   selector: 'warrant-resizeable-table',
@@ -30,7 +29,7 @@ export class ResizeableTableComponent {
     if (!this.handled.includes(target)) {
       if (target.selected) {
         target.selected = false;
-      } else { 
+      } else {
         target.selected = true;
       }
 
@@ -56,8 +55,6 @@ export class ResizeableTableComponent {
   @HostListener('document:mouseup', ['$event'])
   stop(event: MouseEvent): void {
     this.dragging = false;
-    
-    console.log('stopped dragging');
   }
 
   private resetSelection(): void {
