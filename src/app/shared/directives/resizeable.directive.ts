@@ -1,7 +1,7 @@
 import { AfterContentInit, Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Directive({
-  selector: '[resizeable]'
+  selector: '[warrantResizeable]'
 })
 export class ResizeableDirective implements AfterContentInit {
   @Output() resized = new EventEmitter();
@@ -24,7 +24,6 @@ export class ResizeableDirective implements AfterContentInit {
 
   @HostListener('document:mousemove', ['$event'])
   drag(event: MouseEvent): void {
-
     const { right } = this.target.getBoundingClientRect();
     if (event.clientX > (right - this.resizeHandleSize) && event.clientX < right) {
       this.target.style.cursor = 'col-resize';

@@ -23,14 +23,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-import { WebviewDirective } from './directives/';
-
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 import { StoreConnectionDialogComponent } from './components/dialog/store-connection-dialog/store-connection-dialog.component';
 import { ResizeableTableComponent } from './components/resizeable-table/resizeable-table.component';
 import { MatSortModule } from '@angular/material/sort';
-import { ResizeableDirective } from './directives/resizeable/resizeable.directive';
+import { ResizeableDirective } from './directives/resizeable.directive';
+import { SelectableDirective } from './directives/selectable.directive';
 
 const modules = [
   BrowserModule,
@@ -60,13 +59,13 @@ const modules = [
 
 const exported = [
   ResizeableTableComponent,
-  ResizeableDirective
+  ResizeableDirective,
+  SelectableDirective,
 ];
 
 @NgModule({
   declarations: [
     PageNotFoundComponent,
-    WebviewDirective,
     StoreConnectionDialogComponent,
     AutocompleteComponent,
     ...exported,
