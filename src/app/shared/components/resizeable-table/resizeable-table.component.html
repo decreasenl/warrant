@@ -5,7 +5,7 @@
       <span> {{ column }} </span>
     </mat-header-cell>
 
-    <mat-cell *matCellDef="let row" (dblclick)="editCell(row, column)"> 
+    <mat-cell *matCellDef="let row" (dblclick)="editCell(row, column)" (mouseover)="hoveredCell = getCellReference(row, column)"> 
       <textarea *ngIf="getCellReference(row, column) === editingCell" [value]="row[column]" #textArea (keyup)="saveData($event, row, column, textArea.value)">
         
       </textarea>

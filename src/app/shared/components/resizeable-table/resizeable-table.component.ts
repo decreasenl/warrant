@@ -24,6 +24,7 @@ export class ResizeableTableComponent implements AfterContentChecked {
   };
 
   editingCell: any = null;
+  hoveredCell: any = null;
 
   constructor(public processService: ProcessService) { }
 
@@ -65,8 +66,8 @@ export class ResizeableTableComponent implements AfterContentChecked {
       const firstSelectedIndex = this.dataSource.findIndex(t => t.selected);
       this.dataSource.forEach((t, index) => {
         if (
-         targetIndex > firstSelectedIndex && index >= firstSelectedIndex && index <= targetIndex
-         || firstSelectedIndex > targetIndex && index <= firstSelectedIndex && index >= targetIndex
+          targetIndex > firstSelectedIndex && index >= firstSelectedIndex && index <= targetIndex
+          || firstSelectedIndex > targetIndex && index <= firstSelectedIndex && index >= targetIndex
         ) {
           this.select(t);
         }
@@ -109,7 +110,7 @@ export class ResizeableTableComponent implements AfterContentChecked {
     return Object.entries(row).find(e => e).toString() + column;
   }
 
-  @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent): void { 
+  @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     if (event.key === 'Escape') {
       this.resetSelection();
       this.editingCell = null;
@@ -141,6 +142,10 @@ export class ResizeableTableComponent implements AfterContentChecked {
     if (event.shiftKey) {
       this.selectingKeys.shiftKey = true;
       return;
+    }
+
+    if (event.key === 'F2') {
+      this.editingCell = this.hoveredCell;
     }
   }
 
