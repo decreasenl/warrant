@@ -18,14 +18,16 @@ export class ResizeableTableComponent implements AfterContentChecked {
 
   handled: Array<any> = [];
   dragging = false;
-  selecting = false;
+  selectingKeys = {
+    ctrlKey: false,
+    shiftKey: false
+  };
+
   editingCell: any = null;
 
-  constructor(public processService: ProcessService) { 
-    
-  }
+  constructor(public processService: ProcessService) { }
 
-  ngAfterContentChecked(): void { 
+  ngAfterContentChecked(): void {
     of(this.textArea).subscribe(a => {
       if (a) {
         a.nativeElement.focus();
@@ -55,9 +57,22 @@ export class ResizeableTableComponent implements AfterContentChecked {
   }
 
   mousedown(target: any): void {
-    if (this.selecting) {
+    if (this.selectingKeys.ctrlKey) {
       this.select(target);
-    } else {
+    }
+    if (this.selectingKeys.shiftKey) {
+      const targetIndex = this.dataSource.indexOf(target);
+      const firstSelectedIndex = this.dataSource.findIndex(t => t.selected);
+      this.dataSource.forEach((t, index) => {
+        if (
+         targetIndex > firstSelectedIndex && index >= firstSelectedIndex && index <= targetIndex
+         || firstSelectedIndex > targetIndex && index <= firstSelectedIndex && index >= targetIndex
+        ) {
+          this.select(t);
+        }
+      });
+    }
+    else {
       this.dragging = true;
       this.resetSelection();
       this.select(target);
@@ -86,7 +101,7 @@ export class ResizeableTableComponent implements AfterContentChecked {
   }
 
   // Double click
-  editCell(row: any, column: any): void {
+  editCell(row: any, column: any, $event: KeyboardEvent): void {
     this.editingCell = this.getCellReference(row, column);
   }
 
@@ -119,13 +134,19 @@ export class ResizeableTableComponent implements AfterContentChecked {
     }
 
     if (event.ctrlKey) {
-      this.selecting = true;
+      this.selectingKeys.ctrlKey = true;
+      return;
+    }
+
+    if (event.shiftKey) {
+      this.selectingKeys.shiftKey = true;
       return;
     }
   }
 
   @HostListener('document:keyup', ['$event']) onKeyUpHandler(event: KeyboardEvent): void {
-    this.selecting = false;
+    this.selectingKeys.ctrlKey = false;
+    this.selectingKeys.shiftKey = false;
   }
 
   saveData($event: KeyboardEvent, row: any, column: any, value: string): void {
