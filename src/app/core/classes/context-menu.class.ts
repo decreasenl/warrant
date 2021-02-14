@@ -1,6 +1,6 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 
-import { ContextMenuConfig } from '../interfaces/context-menu-config.interface'
+import { ContextMenuConfig } from '../interfaces/context-menu-config.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class ContextMenu {
       this.close();
     }
 
-    this.menu = this.renderer.createElement('mat-menu');
+    this.menu = this.renderer.createElement('ul');
 
     this.renderer.addClass(this.menu, 'context-menu');
     this.renderer.setStyle(this.menu, 'top', `${contextConfig.top}px`);
@@ -27,14 +27,14 @@ export class ContextMenu {
 
     contextConfig.options.forEach(option => {
 
-      const button = this.renderer.createElement('button');
-      this.renderer.listen(button, 'click', (...args: Array<any>) => {
+      const li = this.renderer.createElement('li');
+      this.renderer.listen(li, 'click', (...args: Array<any>) => {
         this.executeCallback(option.method, option, ...args);
       });
 
-      this.renderer.addClass(button, 'context-menu-item');
-      this.renderer.appendChild(button, this.renderer.createText(option.label));
-      this.renderer.appendChild(this.menu, button);
+      this.renderer.addClass(li, 'context-menu-item');
+      this.renderer.appendChild(li, this.renderer.createText(option.label));
+      this.renderer.appendChild(this.menu, li);
     });
 
     this.renderer.appendChild(this.getRootElement(), this.menu);
