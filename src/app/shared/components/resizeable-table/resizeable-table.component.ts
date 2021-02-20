@@ -60,7 +60,9 @@ export class ResizeableTableComponent implements AfterContentChecked {
   mousedown(target: any): void {
     if (this.selectingKeys.ctrlKey) {
       this.select(target);
+      return;
     }
+
     if (this.selectingKeys.shiftKey) {
       const targetIndex = this.dataSource.indexOf(target);
       const firstSelectedIndex = this.dataSource.findIndex(t => t.selected);
@@ -72,8 +74,7 @@ export class ResizeableTableComponent implements AfterContentChecked {
           this.select(t);
         }
       });
-    }
-    else {
+    } else {
       this.dragging = true;
       this.resetSelection();
       this.select(target);
@@ -101,7 +102,6 @@ export class ResizeableTableComponent implements AfterContentChecked {
     });
   }
 
-  // Double click
   editCell(row: any, column: any, $event: KeyboardEvent): void {
     this.editingCell = this.getCellReference(row, column);
   }
