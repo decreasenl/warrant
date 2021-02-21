@@ -156,9 +156,8 @@ export class ResizeableTableComponent implements AfterContentChecked {
 
   saveData($event: KeyboardEvent, row: any, column: any, value: string): void {
     if ($event.ctrlKey && $event.key === 's') {
-      this.dataChanged.emit({
-        row, column, value
-      });
+      row[column] = value;
+      this.dataChanged.emit(row);
     }
   }
 }
