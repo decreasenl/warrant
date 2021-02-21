@@ -30,6 +30,7 @@ import { ResizeableTableComponent } from './components/resizeable-table/resizeab
 import { MatSortModule } from '@angular/material/sort';
 import { ResizeableDirective } from './directives/resizeable.directive';
 import { SelectableDirective } from './directives/selectable.directive';
+import { SnackbarComponent } from './components/notification/snackbar/snackbar.component';
 
 const modules = [
   BrowserModule,
@@ -54,20 +55,21 @@ const modules = [
   MatTableModule,
   MatSortModule,
   MatMenuModule,
-  DragDropModule
+  DragDropModule,
 ];
 
 const exported = [
+  PageNotFoundComponent,
+  StoreConnectionDialogComponent,
+  AutocompleteComponent,
   ResizeableTableComponent,
+  SnackbarComponent,
   ResizeableDirective,
   SelectableDirective,
 ];
 
 @NgModule({
   declarations: [
-    PageNotFoundComponent,
-    StoreConnectionDialogComponent,
-    AutocompleteComponent,
     ...exported,
   ],
   imports: [
