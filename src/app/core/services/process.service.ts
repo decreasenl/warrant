@@ -17,7 +17,7 @@ export class ProcessService {
   fs: typeof fs;
   clipboard: typeof clipboard;
 
-  processes: Array<any>;
+  processes: Array<any> = [];
 
   get isElectron(): boolean {
     return !!(window && window.process && window.process.type);
@@ -33,7 +33,6 @@ export class ProcessService {
 
       this.childProcess = window.require('child_process');
       this.fs = window.require('fs');
-      
     }
   }
 
