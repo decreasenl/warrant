@@ -19,9 +19,9 @@ export class AppComponent {
     // translate.setDefaultLang('en');
 
     if (processService.isElectron) {
-      console.log(process.env);
-      console.log('Mode electron');
-      console.log(processService.ipcRenderer);
+      // console.log(process.env);
+      // console.log('Mode electron');
+      // console.log(processService.ipcRenderer);
 
     } else {
       console.log('Mode web');

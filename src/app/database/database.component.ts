@@ -12,6 +12,7 @@ import { ADD, EDIT } from '../core/constants/types';
 import { ProcessService } from '../core/services/process.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AutocompleteComponent } from '../shared/components/autocomplete/autocomplete.component';
+import { QueryBuilder } from '../core/constants/queries';
 
 
 @Component({
@@ -45,13 +46,20 @@ export class DatabaseComponent implements OnInit {
     private connectionService: ConnectionService,
     private contextMenu: ContextMenu,
     private translatePipe: TranslatePipe,
+    private queryBuilder: QueryBuilder
   ) {
-    if (this.processService.isElectron) {
-      this.connections = this.connectionService.getConnections();
-    }
+
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    if (this.processService.isElectron) {
+      this.connections = this.connectionService.getConnections();
+
+      this.getDatabases();
+    
+
+    }
+  }
 
 
   openContextMenu($event: MouseEvent, connection?: ConnectionConfig): void {
@@ -94,14 +102,25 @@ export class DatabaseComponent implements OnInit {
     }
   }
 
-  connected = (connection: Observable<any>) => {
-    connection.subscribe(con => {
-      console.log(' orange s');
-      console.log(con);
-    });
+  OnDataChanged($event): void {
+    // push "Transaction" into local storage Update query...
+    console.log($event);
   }
 
-  OnDataChanged($event): void {
-    console.log($event);
+  connected = () => {
+    // const insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
+    // const query = this.connectionService.processService.findProcess('mysql').instance.format(insertQuery, ['users', 'name', 'email', 'Mike Meyers', 'mike.meyers@example.com']);
+    const query = this.queryBuilder.get(
+      'mysql',
+      'users',
+    );
+
+    const test = this.queryBuilder.set('mysql', 'update', 'users', ['id', 'email'], ['test@example.com', 5]);
+
+    this.connectionService.connection.query(query, (err, res, fields) => {
+      console.log(err);
+      console.table(res);
+      console.log(fields);
+    })
   }
 }
