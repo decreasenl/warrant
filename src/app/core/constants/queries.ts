@@ -1,5 +1,4 @@
-import { CompileSummaryKind } from "@angular/compiler";
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 interface Condition {
   key: string;
@@ -13,7 +12,9 @@ class FIELDS {
   static VALUES = '[VALUES]';
   static CONDITIONS = '[CONDITIONS]';
   static ALTERNATIVES = '[ALTERNATIVES]';
+  static DATABASE = '[DATABASE]';
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,6 +28,7 @@ export class QueryBuilder {
     mysql: {
       select: `SELECT ${FIELDS.COLUMNS} FROM ${FIELDS.TABLE}`,
       insert: `INSERT INTO ${FIELDS.TABLE} (${FIELDS.COLUMNS}) VALUES (${FIELDS.VALUES})`,
+      tables: `SELECT table_name FROM information_schema.tables WHERE table_schema = '${FIELDS.DATABASE}';`,
       conditions: `WHERE ${FIELDS.CONDITIONS}`,
       alternativeQueries: {
         update: `UPDATE ${FIELDS.TABLE} SET ${FIELDS.ALTERNATIVES}`
@@ -62,22 +64,25 @@ export class QueryBuilder {
     action: 'update' | 'delete' | 'insert',
     table: string,
     columns: Array<string> = [],
-    values: Array<string> = [],
-    conditions: Array<string> = []
+    values: Array<any> = [],
+    conditions: Array<any> = []
   ): string {
 
-    let query = this.getQuery(type, 'select')
+    let query = this.getQuery(type, action)
       .replace(FIELDS.TABLE, table);
-    
-    //forEach((column: string, index: number) => valueSet += `${column} = ${values[index]}`)
-    var valueSet = '';
-    switch (action) {
-      case 'update': valueSet = columns.map((column: string, index: number) => column = `${column}=${values[index]}`).join(',');
-    }
 
-    console.log(valueSet)
+    let valueSet = '';
+    switch (action) {
+      case 'update': {
+        valueSet = columns.map((column: string, index: number) => column = `${column}=${values[index]}`).join(',');
+        query = query.replace(FIELDS.ALTERNATIVES, valueSet);
+      }
+    }
 
     return query;
   }
 
+  public getTables(type: string, database: string): string {
+    return this.getQuery(type, 'tables').replace(FIELDS.DATABASE, database);
+  }
 }

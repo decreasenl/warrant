@@ -1,42 +1,35 @@
 <div class="main">
 
-  <nav class="sidebar" warrantResizeable (contextmenu)="openContextMenu($event)">
+  <nav class="sidebar" warrantResizeable resizeHandleSize="30" (contextmenu)="openContextMenu($event)">
 
-    <div class="database" style="height:47px;">
-      <span class="selected-database" data-toggle="modal" data-target="#databaseModel">[Active Database]</span>
-    </div>
-    
     <mat-accordion [multi]="true">
       <mat-expansion-panel *ngFor="let connection of connections" (contextmenu)="openContextMenu($event, connection); $event.stopPropagation()">
         <mat-expansion-panel-header class="d-panel-header">
           <mat-panel-title>
-            {{ connection.database }}
+            {{ connection.config.database }}
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <p></p>
+
+        <mat-selection-list #shoes [multiple]="false">
+          <mat-list-option *ngFor="let table of connection.tables" [value]="table" (dblclick)="openTable(connection.config.database, table)">
+            {{ table }}
+          </mat-list-option>
+        </mat-selection-list>
       </mat-expansion-panel>
     </mat-accordion>
   </nav>
   
   <div class="content">
-  
-    <ul class="nav nav-horizontal nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home">
-          Home
-          <i class="fa fa-times"></i>
-          <mat-icon aria-hidden="false" aria-label="Example home icon">clear</mat-icon>
-        </a>
-      </li>
-    </ul>
 
-    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <mat-tab-group animationDuration="0ms">
+      <mat-tab *ngFor="let source of dataSources" [label]="source.table">
+        <ng-template matTabContent>
+          <warrant-resizeable-table [columns]="source.columns" [dataSource]="source.results" (dataChanged)="OnDataChanged($event)">
 
-      <warrant-resizeable-table [columns]="displayedColumns" [dataSource]="dataSource" (dataChanged)="OnDataChanged($event)">
-        
-      </warrant-resizeable-table>
-
-    </div>
-  
+          </warrant-resizeable-table>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+    
   </div>
 </div>

@@ -12,6 +12,18 @@ body {
   font-family: -apple-system, Roboto,  BlinkMacSystemFont, "Segoe UI",  Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   height: 100%;
+
+  background: $primary-bg-color;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+
+  color: $text-disabled-color;
 }
 
 /**
@@ -59,7 +71,7 @@ $decrease-secondary: (
   600: #163c51,
   700: #133648,
   800: #112f3f,
-  900: #0e2836,
+  900: #ff0000,
   A100: #ffffff,
   A200: #fff1e9,
   A400: #ffd1b6,
@@ -77,21 +89,9 @@ $decrease-secondary: (
 $primary-palette: mat-palette($decrease-primary);
 $accent-palette: mat-palette($decrease-secondary);
 $app-accent: mat-palette($mat-pink, A200, A100, A400);
-$app-theme: mat-light-theme($primary-palette, $accent-palette);
+$app-theme: mat-dark-theme($primary-palette, $accent-palette);
 
 @include angular-material-theme($app-theme);
-
-body {
-  background: $primary-bg-color;
-
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-}
 
 /**
  * [FORM STYLES]
@@ -207,4 +207,8 @@ body {
 
 ::-webkit-scrollbar-thumb:active {
   background-color: $accent-color;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: $primary-bg-color;
 }

@@ -2,7 +2,7 @@
 
 .mat-table {
   width: 100%;
-  overflow: auto;
+  // overflow: auto;
 }
 
 mat-cell,
@@ -10,13 +10,15 @@ mat-footer-cell,
 mat-header-cell {
   flex: none;
   width: 180px;
-  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-// mat-row, mat-footer-row {
-//   height:30px!important;
-//   min-height: unset;
-// }
+mat-row, mat-footer-row, mat-cell {
+  height:30px!important;
+  min-height: unset;
+}
 
 .mat-table {
   background: transparent;
@@ -40,16 +42,11 @@ mat-header-cell {
   padding-right: 0px;
 }
 
-.mat-table mat-header-cell {
-  // border-top: 1px solid $faded-border-color;
+.mat-table mat-header-cell, .mat-table mat-cell {
   border-right: 1px solid $faded-border-color;
   border-bottom: 1px solid $faded-border-color;
 }
 
-.mat-table mat-cell {
-  border-right: 1px solid $faded-border-color;
-  border-bottom: 1px solid $faded-border-color;
-}
 
 .mat-table,
 mat-cell,
@@ -65,8 +62,14 @@ mat-header-cell {
   textarea {
     resize: none;
     // height:-webkit-fill-available;
+    height:100%;
     background-color: $dark-bg-color;
-    color: $text-light-color
+    color: $text-light-color;
+
+    &:focus {
+      outline: none !important;
+      border:1px solid $accent-color;
+    }
   }
 }
 

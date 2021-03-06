@@ -1,103 +1,19 @@
 @import "../../assets/variables.scss";
 
-body,
-nav {
-  background: $dark-bg-color !important;
-
-  -webkit-touch-callout: none !important; /* iOS Safari */
-  -webkit-user-select: none !important; /* Safari */
-  -khtml-user-select: none !important; /* Konqueror HTML */
-  -moz-user-select: none !important; /* Old versions of Firefox */
-  -ms-user-select: none !important; /* Internet Explorer/Edge */
-  user-select: none !important; /* Non-prefixed version, currently
-                                    supported by Chrome, Edge, Opera and Firefox */
-}
-
-body {
-  color: $text-disabled-color;
-}
-
-//  .cdk-header-cell {
-//    resize: horizontal;
-//  }
-
-.nav-horizontal .nav-content,
-.nav-horizontal .nav-content .nav-tabs {
-  width: 100%;
-}
-
-.nav-horizontal {
-  padding: 0px;
-  background-color: $dark-bg-color;
-}
-
-.nav-horizontal .nav-item a {
-  position: relative;
-}
-
-.nav-tabs mat-icon {
-  position: absolute;
-  top: 5px;
-  right: 0px;
-  font-size: 16px;
-}
-
-.nav-horizontal .nav-item a:hover i {
-  display: block;
-}
-
-.nav-horizontal a {
-  color: $text-disabled-color;
-}
-
-.nav-horizontal.nav-tabs {
-  border-bottom: 1px solid $faded-border-color;
-}
-
-.nav-horizontal .nav li:first-child {
-  border-left: 1px solid $faded-border-color;
-}
-
-.nav-horizontal .nav-item .nav-link {
-  padding: 0.75rem 3rem;
-  border-radius: 0px;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -o-border-radius: 0;
-  border-radius: 0;
-  border: 0;
-}
-
-.nav-horizontal .nav-item .active {
-  background: $primary-bg-color;
-  border: 1px solid $faded-border-color;
-  border-top: 2px solid $accent-color;
-
-  border-bottom: none;
-  color: $text-light-color;
-}
-
-.sidebar a:hover,
-.nav-horizontal .nav-item:hover,
-.nav-horizontal .nav-item:hover a {
-  color: $text-light-color;
-}
-
-.nav-horizontal .nav-item:first-child .active {
-  border-left: none;
-}
-
 .main {
   display: flex;
   height: 100%;
-  
+
   .content {
+    display: flex;
     background: $primary-bg-color;
     flex-grow: 1;
     height: 100%;
+    overflow: scroll;
   }
 
   .sidebar {
+    overflow-x: scroll;
     min-width: 300px;
     padding: 0px;
     background: $primary-bg-color;
@@ -106,65 +22,31 @@ body {
     min-height: 100vh;
     /* Todo :: calculate max height using scss calc */
     border-right: 1px solid $faded-border-color;
-    width: auto;
+    width: 300px;
     float: left;
     height: 100%;
   }
 }
 
-
-.autocomplete,
-.autocomplete:focus {
-  background: $primary-bg-color;
-  border: 1px solid $accent-color;
-  color: $text-light-color;
-}
-
-.d-primary-btn {
-  border-color: $accent-color;
-  color: $text-light-color;
-  background: $primary-bg-color;
-}
-
-.d-primary-btn:hover,
-.d-primary-btn:focus {
-  background: $accent-color;
-  border-color: $accent-color;
-  color: $text-light-color;
-}
-
-.selected-database {
-  color: $text-light-color;
-  cursor: pointer;
-  padding-left: 5px;
-  line-height: 47px;
-  text-align: center;
-}
-
-.modal .modal-header,
-.modal .modal-footer {
-  border-color: $faded-border-color;
-}
-
-.modal .modal-content {
-  color: $text-light-color;
-  background: $primary-bg-color;
-}
-
-.modal .close {
-  color: $text-light-color;
-}
-
-.modal .close:hover {
-  background: $dark-bg-color;
-}
-
 mat-accordion {
-  mat-panel-title {
+  mat-panel-title,
+  mat-list-option {
     color: $text-light-color;
   }
   mat-expansion-panel {
     background-color: $primary-bg-color;
     color: $text-disabled-color;
   }
+}
+
+::ng-deep .mat-tab-header,
+::ng-deep .mat-table .mat-header-row {
+  background-color: $dark-bg-color;
+  position: sticky !important;
+  top: 0;
+  z-index: 2;
+}
+
+::ng-deep .mat-table .mat-header-row {
+  top: 48px;
 }

@@ -10,19 +10,18 @@
         
       </textarea>
 
-      <span *ngIf="getCellReference(row, column) !== editingCell">
+      <div *ngIf="getCellReference(row, column) !== editingCell">
         {{ row[column] }}
-      </span>
+      </div>
     </mat-cell>
     
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="columns" id="header-row-container"></mat-header-row>
+  <mat-header-row *matHeaderRowDef="columns; sticky: true" id="header-row-container"></mat-header-row>
   <mat-row 
     *matRowDef="let row; columns: columns;" 
     (mousedown)="mousedown(row)" 
     (mouseover)="mouseover(row)" 
-    [ngClass]="{'selected-row': row.selected }"
-  >
+    [ngClass]="{'selected-row': row.selected }">
   </mat-row>
 </mat-table>

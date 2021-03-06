@@ -1,19 +1,16 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 
 import { StoreConnectionDialogComponent } from '../shared/components/dialog/store-connection-dialog/store-connection-dialog.component';
 
 import { ConnectionConfig } from '../core/interfaces/connection-config.interface';
-import { ConnectionService } from '../core/services/connection.service';
 import { ContextMenu } from '../core/classes/context-menu.class';
 
 import { ADD, EDIT } from '../core/constants/types';
-import { ProcessService } from '../core/services/process.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AutocompleteComponent } from '../shared/components/autocomplete/autocomplete.component';
+import { ConnectionService } from '../core/services/queries/connection.service';
 import { QueryBuilder } from '../core/constants/queries';
-
 
 @Component({
   selector: 'app-database',
@@ -22,45 +19,27 @@ import { QueryBuilder } from '../core/constants/queries';
 })
 export class DatabaseComponent implements OnInit {
 
-  dataSource = [
-    { id: 1, name: 'Frits', email: 'Frits@mail.com', enabled: true },
-    { id: 2, name: 'John', email: 'John@mail.com', enabled: true },
-    { id: 3, name: 'Mike', email: 'Mike@mail.com', enabled: true },
-    { id: 4, name: 'Paul', email: 'Paul@mail.com', enabled: true },
-    { id: 5, name: 'Mitch', email: 'Mitch@mail.com', enabled: true },
-    { id: 6, name: 'Marcel', email: 'Marcel@mail.com', enabled: true },
-  ];
+  connections = [];
+  tables: Array<{ database: string, table: string }> = [];
 
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'email',
-    'enabled'
-  ];
-
-  connections: Array<ConnectionConfig> = [];
+  dataSources: Array<{
+    table: string,
+    database: string,
+    columns: Array<string>,
+    results: Array<any>
+  }> = [];
 
   constructor(
     public dialog: MatDialog,
-    private processService: ProcessService,
-    private connectionService: ConnectionService,
     private contextMenu: ContextMenu,
     private translatePipe: TranslatePipe,
-    private queryBuilder: QueryBuilder
-  ) {
+    private queryBuilder: QueryBuilder,
+    public connectionService: ConnectionService,
+  ) { }
 
+  ngOnInit(): void {
+    this.connections = this.connectionService.connections;
   }
-
-  ngOnInit(): void { 
-    if (this.processService.isElectron) {
-      this.connections = this.connectionService.getConnections();
-
-      this.getDatabases();
-    
-
-    }
-  }
-
 
   openContextMenu($event: MouseEvent, connection?: ConnectionConfig): void {
     this.contextMenu.show({
@@ -81,16 +60,12 @@ export class DatabaseComponent implements OnInit {
     });
   }
 
-  openStoreConnectionDialog(configuration?: ConnectionConfig): void {
+  openStoreConnectionDialog(configuration?: any): void {
     this.dialog.open(StoreConnectionDialogComponent, {
       data: {
         configuration
       }
     });
-  }
-
-  getDatabases(): void {
-    this.connectionService.connect(this.connectionService.getConnection('localhost', 'mysql'), this.connected);
   }
 
   @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
@@ -103,24 +78,38 @@ export class DatabaseComponent implements OnInit {
   }
 
   OnDataChanged($event): void {
-    // push "Transaction" into local storage Update query...
     console.log($event);
   }
 
-  connected = () => {
-    // const insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
-    // const query = this.connectionService.processService.findProcess('mysql').instance.format(insertQuery, ['users', 'name', 'email', 'Mike Meyers', 'mike.meyers@example.com']);
-    const query = this.queryBuilder.get(
-      'mysql',
-      'users',
+  openTable(database: string, tableName: string): void {
+    /*
+    const test = this.queryBuilder.set(this.connectionService.activeConfiguration.type,
+      'update', 'users', ['id', 'email'], ['test@example.com', 5]
     );
+    */
 
-    const test = this.queryBuilder.set('mysql', 'update', 'users', ['id', 'email'], ['test@example.com', 5]);
+    if (this.tables.find(t => t.database === database && t.table === tableName)) {
+      this.tables = this.tables.filter(t => t.database !== database && t.table !== tableName);
+      this.dataSources = this.dataSources.filter(d => d.database !== database && d.table !== tableName);
+    }
 
-    this.connectionService.connection.query(query, (err, res, fields) => {
-      console.log(err);
-      console.table(res);
-      console.log(fields);
-    })
+    const connection = this.connectionService.connections.find(c => c.config.database === database && c.tables.includes(tableName));
+    const query = this.queryBuilder.get(connection.config.type, tableName);
+    this.connectionService.query(connection.connection, query)
+      .subscribe(results => {
+        this.dataSources.push({
+          database: connection.config.database,
+          table: tableName,
+          columns: results.fields,
+          results: results.results
+        });
+
+        this.tables.push({
+          database,
+          table: tableName
+        });
+      }, errors => {
+
+      });
   }
 }
