@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { StoreConnectionDialogComponent } from '../shared/components/dialog/store-connection-dialog/store-connection-dialog.component';
 
@@ -7,10 +8,10 @@ import { ConnectionConfig } from '../core/interfaces/connection-config.interface
 import { ContextMenu } from '../core/classes/context-menu.class';
 
 import { ADD, EDIT } from '../core/constants/types';
-import { TranslatePipe } from '@ngx-translate/core';
 import { AutocompleteComponent } from '../shared/components/autocomplete/autocomplete.component';
 import { ConnectionService } from '../core/services/queries/connection.service';
 import { QueryBuilder } from '../core/constants/queries';
+
 
 @Component({
   selector: 'app-database',
@@ -19,7 +20,7 @@ import { QueryBuilder } from '../core/constants/queries';
 })
 export class DatabaseComponent implements OnInit {
 
-  connections = [];
+  connections;
   tables: Array<{ database: string, table: string }> = [];
 
   dataSources: Array<{
@@ -81,7 +82,7 @@ export class DatabaseComponent implements OnInit {
     console.log($event);
   }
 
-  openTable(database: string, tableName: string): void {
+  openTable(host: string, database: string, tableName: string): void {
     /*
     const test = this.queryBuilder.set(this.connectionService.activeConfiguration.type,
       'update', 'users', ['id', 'email'], ['test@example.com', 5]
@@ -93,12 +94,12 @@ export class DatabaseComponent implements OnInit {
       this.dataSources = this.dataSources.filter(d => d.database !== database && d.table !== tableName);
     }
 
-    const connection = this.connectionService.connections.find(c => c.config.database === database && c.tables.includes(tableName));
+    const connection = this.connectionService.connections.find(c => c.config.host === host && c.databases.find(d => d.tables.includes(tableName)));
     const query = this.queryBuilder.get(connection.config.type, tableName);
     this.connectionService.query(connection.connection, query)
       .subscribe(results => {
         this.dataSources.push({
-          database: connection.config.database,
+          database: database,
           table: tableName,
           columns: results.fields,
           results: results.results

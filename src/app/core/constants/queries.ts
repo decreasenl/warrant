@@ -29,10 +29,14 @@ export class QueryBuilder {
       select: `SELECT ${FIELDS.COLUMNS} FROM ${FIELDS.TABLE}`,
       insert: `INSERT INTO ${FIELDS.TABLE} (${FIELDS.COLUMNS}) VALUES (${FIELDS.VALUES})`,
       tables: `SELECT table_name FROM information_schema.tables WHERE table_schema = '${FIELDS.DATABASE}';`,
+      databases: `SHOW DATABASES WHERE \`Database\` NOT LIKE 'information_schema';`,
       conditions: `WHERE ${FIELDS.CONDITIONS}`,
       alternativeQueries: {
         update: `UPDATE ${FIELDS.TABLE} SET ${FIELDS.ALTERNATIVES}`
       }
+    },
+    sql: {
+      databases: `SELECT name FROM sys.databases where owner_sid > 1`,
     }
   };
 
@@ -84,5 +88,9 @@ export class QueryBuilder {
 
   public getTables(type: string, database: string): string {
     return this.getQuery(type, 'tables').replace(FIELDS.DATABASE, database);
+  }
+
+  public getDatabases(type: string): string {
+    return this.getQuery(type, 'databases');
   }
 }

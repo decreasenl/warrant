@@ -31,7 +31,7 @@ export class StoreConnectionDialogComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.hasConfiguration()) {
-      const existingConnection = this.connectionService.connections.find(c => c.config.database !== this.data.configuration.config.database);
+      const existingConnection = this.connectionService.connections.find(c => c.config.host !== this.data.configuration.config.host);
       if (existingConnection) {
         this.notification.error('This connection is invalid.');
         this.dialogRef.close();
@@ -43,7 +43,7 @@ export class StoreConnectionDialogComponent implements OnInit {
       'host': new FormControl(this.hasConfiguration() ? this.data.configuration.config.host : '', Validators.required),
       'user': new FormControl(this.hasConfiguration() ? this.data.configuration.config.user : '', Validators.required),
       'password': new FormControl(this.hasConfiguration() ? this.data.configuration.config.password : '', Validators.required),
-      'database': new FormControl(this.hasConfiguration() ? this.data.configuration.config.database : '', Validators.required),
+      // 'database': new FormControl(this.hasConfiguration() ? this.data.configuration.config.database : '', Validators.required),
       'port': new FormControl(this.hasConfiguration() ? this.data.configuration.config.port : '', Validators.required),
       'type': new FormControl(this.hasConfiguration() ? this.data.configuration.config.type : '', Validators.required),
       'tag': new FormControl(this.hasConfiguration() ? this.data.configuration.config.tag : '', Validators.required)

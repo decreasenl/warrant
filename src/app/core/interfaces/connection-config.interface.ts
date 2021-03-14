@@ -1,10 +1,10 @@
 export interface ConnectionConfig {
   host: string;
-  user: string;
-  password: string;
-  database: string;
+  // database: string;
   port: number;
   type: string;
+  user: string;
+  password: string;
   tag: {
     name: string,
     color: string

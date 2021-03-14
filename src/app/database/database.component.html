@@ -2,21 +2,27 @@
 
   <nav class="sidebar" warrantResizeable resizeHandleSize="30" (contextmenu)="openContextMenu($event)">
 
-    <mat-accordion [multi]="true">
-      <mat-expansion-panel *ngFor="let connection of connections" (contextmenu)="openContextMenu($event, connection); $event.stopPropagation()">
-        <mat-expansion-panel-header class="d-panel-header">
-          <mat-panel-title>
-            {{ connection.config.database }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+    <mat-accordion [multi]="true" *ngIf="connections">
+      <div *ngFor="let connection of connections" (contextmenu)="openContextMenu($event, connection); $event.stopPropagation()">
+        <mat-expansion-panel *ngFor="let database of connection.databases">
+          
+          <mat-expansion-panel-header class="d-panel-header">
+            <mat-panel-title>
+              {{ database.name }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+  
+          <mat-selection-list [multiple]="false">
+            <mat-list-option *ngFor="let table of database.tables" [value]="table" (dblclick)="openTable(connection.config.host, database, table)">
+              {{ table }}
+            </mat-list-option>
+          </mat-selection-list>
+  
+        </mat-expansion-panel>        
+      </div>
 
-        <mat-selection-list #shoes [multiple]="false">
-          <mat-list-option *ngFor="let table of connection.tables" [value]="table" (dblclick)="openTable(connection.config.database, table)">
-            {{ table }}
-          </mat-list-option>
-        </mat-selection-list>
-      </mat-expansion-panel>
     </mat-accordion>
+  
   </nav>
   
   <div class="content">

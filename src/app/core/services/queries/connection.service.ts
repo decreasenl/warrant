@@ -18,7 +18,7 @@ export class ConnectionService {
   connections: Array<{
     config: ConnectionConfig,
     connection: any,
-    tables: Array<string>
+    databases: Array<{name: string, tables: Array<string>}>
   }> = [];
 
   public activeConfiguration: ConnectionConfig;
@@ -42,19 +42,39 @@ export class ConnectionService {
 
     connections.forEach((config: ConnectionConfig) => {
       this.connect(config, (connection) => {
-        this.query(connection, this.queryBuilder.getTables(config.type, config.database))
-          .pipe(
-            take(1),
-            map(c => c.results.map(r => r.table_name)))
-          .subscribe(results => {
+        this.getDatabases(connection, config.type).subscribe((databaseNames: Array<string>) => {
+          databaseNames.forEach(database => {
+            const databases: Array<any> = [];
+
+            this.getTables(connection, config.type, database).subscribe((tables: Array<string>) => {
+              databases.push({ name: database, tables });
+            });
+
             this.connections.push({
               config,
               connection,
-              tables: results
+              databases
             });
           });
+        });
       });
     });
+  }
+
+  getDatabases(connection: any, configType: string): Observable<any> {
+    return this.query(connection, this.queryBuilder.getDatabases(configType))
+      .pipe(
+        take(1),
+        map(({results}) => {
+          return results.map(r => r.Database);
+        })
+      );
+  }
+
+  getTables(connection: any, configType: string, database: string): Observable<any> {
+    return this.query(connection, this.queryBuilder.getTables(configType, database)).pipe(map(({ results }) => {
+      return results.map(r => r.table_name);
+    }));
   }
 
   getConnection(host: string, type: string): any {
@@ -70,7 +90,7 @@ export class ConnectionService {
     this.getConnections();
 
     const connections = [
-      ...this.connections.filter(c => c.config.database !== connection.database).map(c => c.config),
+      ...this.connections.filter(c => c.config.host !== connection.host).map(c => c.config),
       connection
     ];
 

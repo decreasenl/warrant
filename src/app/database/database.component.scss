@@ -39,14 +39,26 @@ mat-accordion {
   }
 }
 
-::ng-deep .mat-tab-header,
-::ng-deep .mat-table .mat-header-row {
+@mixin sticky-headers {
   background-color: $dark-bg-color;
   position: sticky !important;
   top: 0;
   z-index: 2;
 }
 
-::ng-deep .mat-table .mat-header-row {
-  top: 48px;
+::ng-deep {
+  .mat-tab-header {
+    @include sticky-headers;
+  }
+
+  .mat-table {
+    .mat-header-row {
+      @include sticky-headers;
+    }
+
+    .mat-header-cell:first-of-type,
+    .mat-cell:first-of-type {
+      text-indent: 1.2rem;
+    }
+  }
 }
