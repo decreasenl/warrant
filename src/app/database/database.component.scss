@@ -28,6 +28,10 @@
   }
 }
 
+.mat-tab-labels .mat-tab-label-content {
+  color:red;
+}
+
 mat-accordion {
   mat-panel-title,
   mat-list-option {
@@ -44,6 +48,10 @@ mat-accordion {
   position: sticky !important;
   top: 0;
   z-index: 2;
+}
+
+.mat-tab-group {
+  min-width: 100%;
 }
 
 ::ng-deep {

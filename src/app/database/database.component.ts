@@ -1,16 +1,17 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { AfterContentInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslatePipe } from '@ngx-translate/core';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 
 import { StoreConnectionDialogComponent } from '../shared/components/dialog/store-connection-dialog/store-connection-dialog.component';
 
 import { ConnectionConfig } from '../core/interfaces/connection-config.interface';
 import { ContextMenu } from '../core/classes/context-menu.class';
-
 import { ADD, EDIT } from '../core/constants/types';
 import { AutocompleteComponent } from '../shared/components/autocomplete/autocomplete.component';
-import { ConnectionService } from '../core/services/queries/connection.service';
-import { QueryBuilder } from '../core/constants/queries';
+import { ConnectionService, SomeDatabaseCollection } from '../core/services/queries/connection.service';
+import { QueryBuilder } from '../core/classes/query-builder.class';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -20,14 +21,20 @@ import { QueryBuilder } from '../core/constants/queries';
 })
 export class DatabaseComponent implements OnInit {
 
-  connections;
-  tables: Array<{ database: string, table: string }> = [];
+  @ViewChild('tabs', { static: true }) tabs: MatTabGroup;
+
+  connections: Array<SomeDatabaseCollection>;
+  activeDataSource = null;
 
   dataSources: Array<{
-    table: string,
     database: string,
-    columns: Array<string>,
-    results: Array<any>
+    selectedTabIndex: number
+    tables: Array<
+      {
+        table: string,
+        columns: Array<string>,
+        results: Array<any>,
+      }>
   }> = [];
 
   constructor(
@@ -38,11 +45,15 @@ export class DatabaseComponent implements OnInit {
     public connectionService: ConnectionService,
   ) { }
 
-  ngOnInit(): void {
-    this.connections = this.connectionService.connections;
+  public ngOnInit(): void {
+    this.connectionService.getConnections().subscribe((connections: Array<SomeDatabaseCollection>) => {
+      this.connections = connections;
+    });
+
+    of(this.dataSources).subscribe(a => {console.log(a)});
   }
 
-  openContextMenu($event: MouseEvent, connection?: ConnectionConfig): void {
+  public openContextMenu($event: MouseEvent, connection?: ConnectionConfig): void {
     this.contextMenu.show({
       top: $event.clientY,
       left: $event.clientX,
@@ -61,7 +72,7 @@ export class DatabaseComponent implements OnInit {
     });
   }
 
-  openStoreConnectionDialog(configuration?: any): void {
+  public openStoreConnectionDialog(configuration?: any): void {
     this.dialog.open(StoreConnectionDialogComponent, {
       data: {
         configuration
@@ -78,39 +89,49 @@ export class DatabaseComponent implements OnInit {
     }
   }
 
-  OnDataChanged($event): void {
+  public OnDataChanged($event): void {
     console.log($event);
+    // persist changes to the database
   }
 
-  openTable(host: string, database: string, tableName: string): void {
-    /*
-    const test = this.queryBuilder.set(this.connectionService.activeConfiguration.type,
-      'update', 'users', ['id', 'email'], ['test@example.com', 5]
-    );
-    */
-
-    if (this.tables.find(t => t.database === database && t.table === tableName)) {
-      this.tables = this.tables.filter(t => t.database !== database && t.table !== tableName);
-      this.dataSources = this.dataSources.filter(d => d.database !== database && d.table !== tableName);
+  public openTable(host: string, database: string, tableName: string): void {
+    const existingDatabase = this.dataSources.find(d => d.database === database);
+    if (this.dataSources.find(d => d.database) && this.dataSources.find(d => d.tables.find(t => t.table === tableName))) {
+      existingDatabase.tables = existingDatabase.tables.filter(t => t.table !== tableName);
     }
 
-    const connection = this.connectionService.connections.find(c => c.config.host === host && c.databases.find(d => d.tables.includes(tableName)));
+    const connection = this.connections.find(c => c.config.host === host && c.databases.find(d => d.tables.includes(tableName)));
     const query = this.queryBuilder.get(connection.config.type, tableName);
     this.connectionService.query(connection.connection, query)
       .subscribe(results => {
-        this.dataSources.push({
-          database: database,
-          table: tableName,
-          columns: results.fields,
-          results: results.results
-        });
+        if (!existingDatabase) {
+          const newDataSource = {
+            database,
+            selectedTabIndex: 0,
+            tables: [{
+              table: tableName,
+              columns: results.fields,
+              results: results.results,
+            }],
+          };
 
-        this.tables.push({
-          database,
-          table: tableName
-        });
+          this.dataSources.push(newDataSource);
+        } else {
+          existingDatabase.tables.push({
+            table: tableName,
+            columns: results.fields,
+            results: results.results
+          });
+          existingDatabase.selectedTabIndex = existingDatabase.tables.length - 1;
+        }
+
+        this.activeDataSource = this.dataSources.find(d => d.database === database);
       }, errors => {
 
       });
+  }
+
+  public selectTab(dataSource: any, $event?: MatTabChangeEvent): void {
+    // console.log(dataSource, $event)
   }
 }

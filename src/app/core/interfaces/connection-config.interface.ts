@@ -1,6 +1,6 @@
 export interface ConnectionConfig {
   host: string;
-  // database: string;
+  database: string;
   port: number;
   type: string;
   user: string;

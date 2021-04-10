@@ -1,5 +1,4 @@
-import { AfterContentChecked, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { of } from 'rxjs';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { ProcessService } from 'src/app/core/services/process.service';
 
 @Component({
@@ -7,14 +6,14 @@ import { ProcessService } from 'src/app/core/services/process.service';
   templateUrl: './resizeable-table.component.html',
   styleUrls: ['./resizeable-table.component.scss']
 })
-export class ResizeableTableComponent implements AfterContentChecked {
-
-  @ViewChild('textArea') textArea: ElementRef;
+export class ResizeableTableComponent {
 
   @Input() columns: Array<string> = [];
   @Input() dataSource: Array<any> = [];
 
   @Output() dataChanged = new EventEmitter();
+
+  @ViewChild('textArea') textArea: ElementRef;
 
   handled: Array<any> = [];
   dragging = false;
@@ -26,18 +25,9 @@ export class ResizeableTableComponent implements AfterContentChecked {
   editingCell: any = null;
   hoveredCell: any = null;
 
-  constructor(public processService: ProcessService) { }
+  constructor(protected processService: ProcessService) { }
 
-  ngAfterContentChecked(): void {
-    of(this.textArea).subscribe(a => {
-      if (a) {
-        a.nativeElement.focus();
-      }
-    });
-  }
-
-
-  onResize(target: HTMLElement): void {
+  protected onResize(target: HTMLElement): void {
     const column = Array.from(target.classList).find(t => t.includes('cdk-column'));
     const cells = target.parentElement.parentElement.querySelectorAll(`mat-cell.${column}`);
     cells.forEach(cell => {
@@ -45,7 +35,7 @@ export class ResizeableTableComponent implements AfterContentChecked {
     });
   }
 
-  select(target: any): void {
+  protected select(target: any): void {
     if (!this.handled.includes(target)) {
       if (target.selected) {
         target.selected = false;
@@ -57,7 +47,7 @@ export class ResizeableTableComponent implements AfterContentChecked {
     }
   }
 
-  mousedown(target: any): void {
+  protected mousedown(target: any): void {
     if (this.selectingKeys.ctrlKey) {
       this.select(target);
       return;
@@ -81,17 +71,12 @@ export class ResizeableTableComponent implements AfterContentChecked {
     }
   }
 
-  mouseover(target: any): void {
+  protected mouseover(target: any): void {
     if (!this.dragging) {
       return;
     }
 
     this.select(target);
-  }
-
-  @HostListener('document:mouseup', ['$event'])
-  stop(event: MouseEvent): void {
-    this.dragging = false;
   }
 
   private resetSelection(): void {
@@ -102,12 +87,17 @@ export class ResizeableTableComponent implements AfterContentChecked {
     });
   }
 
-  editCell(row: any, column: any, $event: KeyboardEvent): void {
+  protected editCell(row: any, column: any, $event: KeyboardEvent): void {
     this.editingCell = this.getCellReference(row, column);
   }
 
-  getCellReference(row: any, column: any): string {
+  protected getCellReference(row: any, column: any): string {
     return Object.entries(row).find(e => e).toString() + column;
+  }
+
+  @HostListener('document:mouseup', ['$event'])
+  protected stop(event: MouseEvent): void {
+    this.dragging = false;
   }
 
   @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
@@ -154,7 +144,7 @@ export class ResizeableTableComponent implements AfterContentChecked {
     this.selectingKeys.shiftKey = false;
   }
 
-  saveData($event: KeyboardEvent, row: any, column: any, value: string): void {
+  protected saveData($event: KeyboardEvent, row: any, column: any, value: string): void {
     if ($event.ctrlKey && $event.key === 's') {
       row[column] = value;
       this.dataChanged.emit(row);

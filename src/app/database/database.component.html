@@ -2,6 +2,14 @@
 
   <nav class="sidebar" warrantResizeable resizeHandleSize="30" (contextmenu)="openContextMenu($event)">
 
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-select>
+        <mat-option *ngFor="let datasource of dataSources" [value]="dataSource">
+          {{ datasource.database }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <mat-accordion [multi]="true" *ngIf="connections">
       <div *ngFor="let connection of connections" (contextmenu)="openContextMenu($event, connection); $event.stopPropagation()">
         <mat-expansion-panel *ngFor="let database of connection.databases">
@@ -13,24 +21,23 @@
           </mat-expansion-panel-header>
   
           <mat-selection-list [multiple]="false">
-            <mat-list-option *ngFor="let table of database.tables" [value]="table" (dblclick)="openTable(connection.config.host, database, table)">
+            <mat-list-option *ngFor="let table of database.tables" [value]="table" (dblclick)="openTable(connection.config.host, database.name, table)">
               {{ table }}
             </mat-list-option>
           </mat-selection-list>
   
         </mat-expansion-panel>        
       </div>
-
     </mat-accordion>
-  
+
   </nav>
   
   <div class="content">
 
-    <mat-tab-group animationDuration="0ms">
-      <mat-tab *ngFor="let source of dataSources" [label]="source.table">
+    <mat-tab-group *ngIf="activeDataSource" animationDuration="0ms" #tabs [selectedIndex]="activeDataSource.selectedTabIndex" (selectedTabChange)="selectTab(activeDataSource, $event)">
+      <mat-tab *ngFor="let table of activeDataSource.tables" [label]="table.table">
         <ng-template matTabContent>
-          <warrant-resizeable-table [columns]="source.columns" [dataSource]="source.results" (dataChanged)="OnDataChanged($event)">
+          <warrant-resizeable-table [columns]="table.columns" [dataSource]="table.results" (dataChanged)="OnDataChanged($event)">
 
           </warrant-resizeable-table>
         </ng-template>
