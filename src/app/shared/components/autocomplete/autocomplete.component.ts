@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { startWith, map } from 'rxjs/operators';
@@ -22,38 +22,36 @@ export class AutocompleteComponent {
   connections: Array<SomeDatabaseCollection> = [];
 
   searchControl = new FormControl();
-  // connections: Array<Option> = [
-  //   { name: 'Decrease', type: 'sql' },
-  //   { name: 'Transit', type: 'mssql' }
-  // ]
 
   constructor(private connectionsService: ConnectionService) {
     this.filteredData = this.searchControl.valueChanges
       .pipe(
         startWith(''),
-        map(connection => connection ? this._filterconnections(connection) : this.connections.slice())
+        map(connection => this._filterconnections(connection))
     );
-    
+
     this.connectionsService.getConnections().subscribe(c => {
       this.connections = c;
-    })
+    });
   }
 
   private _filterconnections(value: string): Array<Option> {
     const filterValue = value.toLowerCase();
-    const databases = this.connections.filter(c => c.databases.some(d => d.name.toLowerCase().includes(value.toLowerCase()))).map(c => c.databases.map(d => ({name: d.name, type: c.config.type})));
-    console.log(databases);
-    
-    // const tables = this.connections.filter(c => c.databases.some(d => d.tables.some(t => t.toLowerCase().includes(value.toLowerCase()))));
-    const tables = this.connections.filter(c => c.databases.some(d => d.tables.filter(t => t.toLowerCase().includes(t.toLowerCase()))));
-    console.log(tables)
-    
-    return [];
-    return this.connections.filter(connection => connection.name.toLowerCase().indexOf(filterValue) === 0);
+    const matchingDatabases = this.connections.slice().filter(c =>
+      c.databases.some(d => d.name.toLowerCase().includes(filterValue)) || c.databases.some(d => d.tables.includes(filterValue) || d.tables.find(t => t.includes(filterValue)))
+    );
+
+    const databases = this.flattenArray(matchingDatabases.map(c => c.databases.map(d => ({name: d.name, type: c.config.type}))));
+    const tables = this.flattenArray(matchingDatabases.map(c => c.databases.map(d => d.tables))).filter(t => t.includes(filterValue)).map(table => ({name: table, type: 'table'}));
+
+    return [
+      ...databases,
+      ...tables
+    ];
   }
 
-  // private calculate(value: string, compare: string): void {
-  //   return value.
-  // }
+  private flattenArray(array: Array<any>): Array<any> {
+    return [].concat.apply([], array.reduce((prev, next) => prev.concat(next)));;
+  }
 }
 
