@@ -3,14 +3,14 @@
   <input matInput [matAutocomplete]="auto" [formControl]="searchControl" />
   <mat-hint>{{ "Search.placeholder" | translate }}</mat-hint>
 
-  <mat-autocomplete #auto="matAutocomplete">
-    <mat-option *ngFor="let data of filteredData | async" [value]="data.name">
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectItem($event.option.value)" [displayWith]="displayOption">
+    <mat-option *ngFor="let option of options | async" [value]="option">
       <span class="badge-container">
         <span class="badge badge-dark">
-          {{ data.type }}
+          {{ option.type }}
         </span>
       </span>
-      <span>{{ data.name }}</span>
+      <span>{{ option.name }}</span>
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>

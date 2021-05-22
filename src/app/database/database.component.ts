@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
@@ -8,7 +8,7 @@ import { StoreConnectionDialogComponent } from '../shared/components/dialog/stor
 import { ConnectionConfig } from '../core/interfaces/connection-config.interface';
 import { ContextMenu } from '../core/classes/context-menu.class';
 import { ADD, EDIT } from '../core/constants/types';
-import { AutocompleteComponent } from '../shared/components/autocomplete/autocomplete.component';
+import { AutocompleteComponent, Option } from '../shared/components/autocomplete/autocomplete.component';
 import { ConnectionService, SomeDatabaseCollection } from '../core/services/queries/connection.service';
 import { QueryBuilder } from '../core/classes/query-builder.class';
 import { of } from 'rxjs';
@@ -85,7 +85,13 @@ export class DatabaseComponent implements OnInit {
       if (this.dialog.openDialogs) {
         this.dialog.openDialogs.forEach(dialog => dialog.close());
       }
-      this.dialog.open(AutocompleteComponent);
+      this.dialog.open(AutocompleteComponent).afterClosed().subscribe((option: Option) => {
+        if (['mysql'].includes(option.type)) {
+
+        } else {
+          
+        }
+      });
     }
   }
 
