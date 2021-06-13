@@ -1,18 +1,18 @@
 <div class="main">
 
-  <nav class="sidebar" warrantResizeable resizeHandleSize="30" (contextmenu)="openContextMenu($event)">
+  <nav class="sidebar" warrantResizeable resizeHandleSize="30" (contextmenu)="openConnectionContextMenu($event)">
 
-    <mat-form-field appearance="fill" class="w-100">
+    <!-- <mat-form-field appearance="fill" class="w-100">
       <mat-select>
         <mat-option *ngFor="let datasource of dataSources" [value]="dataSource">
           {{ datasource.database }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <mat-accordion [multi]="true" *ngIf="connections">
-      <div *ngFor="let connection of connections" (contextmenu)="openContextMenu($event, connection); $event.stopPropagation()">
-        <mat-expansion-panel *ngFor="let database of connection.databases">
+      <div *ngFor="let connection of connections" (contextmenu)="openConnectionContextMenu($event, connection); $event.stopPropagation()">
+        <mat-expansion-panel *ngFor="let database of connection.databases" [expanded]="openedDatabases.includes(database.name)">
           
           <mat-expansion-panel-header class="d-panel-header">
             <mat-panel-title>
@@ -34,13 +34,13 @@
   
   <div class="content">
 
-    <mat-tab-group *ngIf="activeDataSource" animationDuration="0ms" #tabs [selectedIndex]="activeDataSource.selectedTabIndex" (selectedTabChange)="selectTab(activeDataSource, $event)">
-      <mat-tab *ngFor="let table of activeDataSource.tables" [label]="table.table">
-        <ng-template matTabContent>
+    <mat-tab-group *ngIf="activeDataSource" animationDuration="0" #tabs [selectedIndex]="activeDataSource.selectedTabIndex">
+      <mat-tab *ngFor="let table of activeDataSource.tables" [label]="table.table" (contextmenu)="openTableContextMenu($event, table.table); $event.stopPropagation()">
+        <!-- <ng-template matTabContent> -->
           <warrant-resizeable-table [columns]="table.columns" [dataSource]="table.results" (dataChanged)="OnDataChanged($event)">
 
           </warrant-resizeable-table>
-        </ng-template>
+        <!-- </ng-template> -->
       </mat-tab>
     </mat-tab-group>
     

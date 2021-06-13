@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Queries } from '../constants/queries';
+import { Queries } from '../constants/queries.class';
 
 @Injectable({ providedIn: 'root' })
 export class QueryBuilder {

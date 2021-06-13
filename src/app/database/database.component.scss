@@ -5,7 +5,7 @@
   height: 100%;
 
   .content {
-    display: flex;
+    display: inline-block;
     background: $primary-bg-color;
     flex-grow: 1;
     height: 100%;
@@ -69,4 +69,22 @@ mat-accordion {
       text-indent: 1.2rem;
     }
   }
+
+  .mat-ripple-element {
+    display: none;
+  }
+
+.mat-tab-label-container .mat-ink-bar {
+  display: none;
+}
+}
+
+
+::ng-deep.mat-tab-label.mat-tab-label-active:not(.mat-tab-disabled),
+::ng-deep.mat-tab-label.mat-tab-label-active.cdk-keyboard-focused:not(.mat-tab-disabled) {
+  background-color: $light-bg-color;
+  color: white;
+  opacity: 1;
+  box-sizing: border-box;
+  border-bottom:3px solid $accent-color;
 }

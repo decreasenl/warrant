@@ -2,17 +2,16 @@ import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
-
-import { StoreConnectionDialogComponent } from '../shared/components/dialog/store-connection-dialog/store-connection-dialog.component';
-
-import { ConnectionConfig } from '../core/interfaces/connection-config.interface';
-import { ContextMenu } from '../core/classes/context-menu.class';
-import { ADD, EDIT } from '../core/constants/types';
-import { AutocompleteComponent, Option } from '../shared/components/autocomplete/autocomplete.component';
-import { ConnectionService, SomeDatabaseCollection } from '../core/services/queries/connection.service';
-import { QueryBuilder } from '../core/classes/query-builder.class';
 import { of } from 'rxjs';
 
+import { QueryBuilder } from '../core/classes/query-builder.class';
+import { ContextMenu } from '../core/classes/context-menu.class';
+import { ADD, EDIT } from '../core/constants/types';
+import { ConnectionConfig } from '../core/interfaces/connection-config.interface';
+import { ConnectionService, SomeDatabaseCollection } from '../core/services/queries/connection.service';
+
+import { StoreConnectionDialogComponent } from '../shared/components/dialog/store-connection-dialog/store-connection-dialog.component';
+import { AutocompleteComponent, Option } from '../shared/components/autocomplete/autocomplete.component';
 
 @Component({
   selector: 'app-database',
@@ -37,6 +36,8 @@ export class DatabaseComponent implements OnInit {
       }>
   }> = [];
 
+  openedDatabases = [];
+
   constructor(
     public dialog: MatDialog,
     private contextMenu: ContextMenu,
@@ -49,11 +50,9 @@ export class DatabaseComponent implements OnInit {
     this.connectionService.getConnections().subscribe((connections: Array<SomeDatabaseCollection>) => {
       this.connections = connections;
     });
-
-    of(this.dataSources).subscribe(a => {console.log(a)});
   }
 
-  public openContextMenu($event: MouseEvent, connection?: ConnectionConfig): void {
+  public openConnectionContextMenu($event: MouseEvent, connection?: ConnectionConfig): void {
     this.contextMenu.show({
       top: $event.clientY,
       left: $event.clientX,
@@ -72,6 +71,22 @@ export class DatabaseComponent implements OnInit {
     });
   }
 
+  public openTableContextMenu($event: MouseEvent, table?: string): void {
+    console.log('FIRED');
+    console.log(table)
+    this.contextMenu.show({
+      top: $event.clientY,
+      left: $event.clientX,
+      options: [
+        {
+          type: 'Close all',
+          label: this.translatePipe.transform('Tabs.Close'),
+          method: (...args: Array<any>) => console.log('supposed to close all tables')
+        }
+      ]
+    });
+  }
+
   public openStoreConnectionDialog(configuration?: any): void {
     this.dialog.open(StoreConnectionDialogComponent, {
       data: {
@@ -86,10 +101,25 @@ export class DatabaseComponent implements OnInit {
         this.dialog.openDialogs.forEach(dialog => dialog.close());
       }
       this.dialog.open(AutocompleteComponent).afterClosed().subscribe((option: Option) => {
-        if (['mysql'].includes(option.type)) {
+        if (option) {
+          switch (option.type) {
+            case 'mysql':
+              this.openedDatabases.push(option.name);
+              break;
+            case 'table':
 
-        } else {
-          
+              const tableConnection = this.connections.find(c => c.databases.some(d => d.tables.find(t => t === option.name)));
+              if (tableConnection) {
+                const database = tableConnection.databases.find(d => d.tables.find(t => t === option.name));
+
+                if (!this.openedDatabases.includes(database.name)) {
+                  this.openedDatabases.push(database.name);
+                }
+
+                this.openTable(tableConnection.config.host, database.name, option.name);
+              }
+              break;
+          }
         }
       });
     }
@@ -97,7 +127,6 @@ export class DatabaseComponent implements OnInit {
 
   public OnDataChanged($event): void {
     console.log($event);
-    // persist changes to the database
   }
 
   public openTable(host: string, database: string, tableName: string): void {
@@ -138,6 +167,6 @@ export class DatabaseComponent implements OnInit {
   }
 
   public selectTab(dataSource: any, $event?: MatTabChangeEvent): void {
-    // console.log(dataSource, $event)
+    console.log(dataSource, $event)
   }
 }

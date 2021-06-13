@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { startWith, map } from 'rxjs/operators';
@@ -25,6 +25,7 @@ export interface Option {
 export class AutocompleteComponent {
   selectedOption: Option = null;
   options: Observable<Array<Option>>;
+  matchingOptions: Array<Option> = [];
   connections: Array<SomeDatabaseCollection> = [];
 
   @ViewChild('auto', { static: true }) auto: MatAutocomplete;
@@ -56,10 +57,12 @@ export class AutocompleteComponent {
     const databases = this.flattenArray(matchingDatabaseConnections.filter(c => c.databases.some(d => d.name.toLowerCase().includes(filterValue))).map(c => c.databases.map(d => ({ name: d.name, type: c.config.type }))));
     const tables = this.flattenArray(matchingDatabaseConnections.slice().map(c => c.databases.map(d => d.tables))).filter(t => t.includes(filterValue)).map(table => ({ name: table, type: 'table' }));
 
-    return [
+    this.matchingOptions = [
       ...databases,
       ...tables
     ];
+
+    return this.matchingOptions;
   }
 
   private flattenArray(array: Array<any>): Array<any> {
@@ -79,6 +82,12 @@ export class AutocompleteComponent {
   public selectItem(option: Option): void {
     this.selectedOption = option;
     this.dialogRef.close(option);
+  }
+
+  @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
+    if (event.code === 'Enter') {
+      this.selectItem(this.matchingOptions.find(o => o));
+    }
   }
 }
 

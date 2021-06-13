@@ -6,11 +6,11 @@
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectItem($event.option.value)" [displayWith]="displayOption">
     <mat-option *ngFor="let option of options | async" [value]="option">
       
-      <span class="badge-container">
+      <!-- <span class="badge-container mr-5">
         <span class="badge badge-secondary">connection name?</span>
-      </span>
+      </span> -->
 
-      <span class="badge-container ml-5">
+      <span class="badge-container">
         <span class="badge badge-dark">
           {{ option.type }}
         </span>
