@@ -24,18 +24,20 @@ export class ContextMenu {
     this.renderer.addClass(this.menu, 'context-menu');
     this.renderer.setStyle(this.menu, 'top', `${contextConfig.top}px`);
     this.renderer.setStyle(this.menu, 'left', `${contextConfig.left}px`);
+    this.renderer.setStyle(this.menu, 'z-index', `${contextConfig.zIndex}`);
 
     contextConfig.options.forEach(option => {
+      if (typeof option.visible === 'undefined' || option.visible) {
+        const li = this.renderer.createElement('li');
+        this.renderer.listen(li, 'click', (...args: Array<any>) => {
+          this.executeCallback(option.method, option, ...args);
+        });
 
-      const li = this.renderer.createElement('li');
-      this.renderer.listen(li, 'click', (...args: Array<any>) => {
-        this.executeCallback(option.method, option, ...args);
-      });
-
-      this.renderer.addClass(li, 'context-menu-item');
-      this.renderer.appendChild(li, this.renderer.createText(option.label));
-      this.renderer.appendChild(this.menu, li);
-    });
+        this.renderer.addClass(li, 'context-menu-item');
+        this.renderer.appendChild(li, this.renderer.createText(option.label));
+        this.renderer.appendChild(this.menu, li);
+      }
+    }); 
 
     this.renderer.appendChild(this.getRootElement(), this.menu);
     this.isShowing = true;

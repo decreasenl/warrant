@@ -1,4 +1,5 @@
 import { AfterContentInit, Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { createKeybinding } from 'custom-electron-titlebar/lib/common/keyCodes';
 
 @Directive({
   selector: '[warrantResizeable]'

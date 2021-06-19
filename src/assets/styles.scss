@@ -2,6 +2,7 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bootstrap/scss/bootstrap";
 @import "material-design-icons/iconfont/material-icons.css";
+
 @import "./variables.scss";
 
 html,
@@ -171,6 +172,9 @@ $app-theme: mat-dark-theme($primary-palette, $accent-palette);
   color: $accent-color;
 }
 
+/**
+ * [CONTEXT MENU]
+ */
 .context-menu {
   padding: 0px;
   position: absolute;
@@ -191,7 +195,9 @@ $app-theme: mat-dark-theme($primary-palette, $accent-palette);
     }
   }
 }
-
+/**
+ * [SCROLLBAR]
+ */
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px $primary-bg-color;
   -webkit-box-shadow: inset 0 0 6px $primary-bg-color;

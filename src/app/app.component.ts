@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-// import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Titlebar, Color } from 'custom-electron-titlebar';
 import { Menu, MenuItem, shell } from 'electron';
 
@@ -14,9 +14,9 @@ export class AppComponent {
 
   constructor(
     public processService: ProcessService,
-    // private translate: TranslateService
+    private translateService: TranslateService
   ) {
-    // translate.setDefaultLang('en');
+    translateService.setDefaultLang('en');
 
     if (processService.isElectron) {
       // console.log(process.env);

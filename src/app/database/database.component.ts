@@ -12,6 +12,7 @@ import { ConnectionService, SomeDatabaseCollection } from '../core/services/quer
 
 import { StoreConnectionDialogComponent } from '../shared/components/dialog/store-connection-dialog/store-connection-dialog.component';
 import { AutocompleteComponent, Option } from '../shared/components/autocomplete/autocomplete.component';
+import { table, timeStamp } from 'console';
 
 @Component({
   selector: 'app-database',
@@ -30,10 +31,15 @@ export class DatabaseComponent implements OnInit {
     selectedTabIndex: number
     tables: Array<
       {
-        table: string,
+        name: string,
         columns: Array<string>,
         results: Array<any>,
       }>
+    activeTable: {
+      name: string,
+      columns: Array<string>,
+      results: Array<any>,
+    }
   }> = [];
 
   openedDatabases = [];
@@ -56,33 +62,44 @@ export class DatabaseComponent implements OnInit {
     this.contextMenu.show({
       top: $event.clientY,
       left: $event.clientX,
-      options: [
+      options:  [
         {
-          type: ADD,
           label: this.translatePipe.transform('Connection.Add'),
-          method: (...args: Array<any>) => this.openStoreConnectionDialog()
+          method: () => this.openStoreConnectionDialog()
         },
         {
-          type: EDIT,
+          visible: typeof connection !== 'undefined',
           label: this.translatePipe.transform('Connection.Edit'),
           method: () => this.openStoreConnectionDialog(connection)
         }
-      ].filter(option => connection == null ? option.type !== EDIT : option)
+      ]
     });
   }
 
-  public openTableContextMenu($event: MouseEvent, table?: string): void {
-    console.log('FIRED');
-    console.log(table)
+  public openTableContextMenu($event: MouseEvent, tableName?: string): void {
+    console.log(this.activeDataSource);
     this.contextMenu.show({
       top: $event.clientY,
       left: $event.clientX,
+      zIndex: 500,
       options: [
         {
-          type: 'Close all',
+          label: this.translatePipe.transform('Tabs.CloseAll'),
+          method: () => {
+            this.activeDataSource.tables = [];
+            this.activeDataSource.activeTable = null;
+          }
+        },
+        {
+          visible: typeof tableName !== 'undefined',
           label: this.translatePipe.transform('Tabs.Close'),
-          method: (...args: Array<any>) => console.log('supposed to close all tables')
-        }
+          method: () => {
+            this.activeDataSource.tables = this.activeDataSource.tables.filter(t => t.name !== tableName);
+            if (!this.activeDataSource.tables.find(t => t.name === this.activeDataSource.activeTable.name)) {
+              this.activeDataSource.activeTable = this.activeDataSource.tables.find(t => t);
+            }
+          }
+        },
       ]
     });
   }
@@ -131,42 +148,52 @@ export class DatabaseComponent implements OnInit {
 
   public openTable(host: string, database: string, tableName: string): void {
     const existingDatabase = this.dataSources.find(d => d.database === database);
-    if (this.dataSources.find(d => d.database) && this.dataSources.find(d => d.tables.find(t => t.table === tableName))) {
-      existingDatabase.tables = existingDatabase.tables.filter(t => t.table !== tableName);
+    if (existingDatabase) {
+      const existingTable = existingDatabase.tables.find(t => t.name === tableName);
+      if (existingTable) {
+        existingDatabase.activeTable = existingTable;
+        return;
+      }
     }
 
     const connection = this.connections.find(c => c.config.host === host && c.databases.find(d => d.tables.includes(tableName)));
     const query = this.queryBuilder.get(connection.config.type, tableName);
     this.connectionService.query(connection.connection, query)
       .subscribe(results => {
+        const table = {
+          name: tableName,
+          columns: results.fields,
+          results: results.results,
+        };
+
         if (!existingDatabase) {
           const newDataSource = {
+            connection,
             database,
             selectedTabIndex: 0,
-            tables: [{
-              table: tableName,
-              columns: results.fields,
-              results: results.results,
-            }],
+            tables: [table],
+            activeTable: table
           };
 
           this.dataSources.push(newDataSource);
         } else {
-          existingDatabase.tables.push({
-            table: tableName,
-            columns: results.fields,
-            results: results.results
-          });
-          existingDatabase.selectedTabIndex = existingDatabase.tables.length - 1;
+          existingDatabase.tables = [
+            ...existingDatabase.tables.map(t => {
+              if (t.name === table.name) {
+                  return table;
+              }
+              return t;
+            }),
+          ];
+          if (!existingDatabase.tables.find(t => t.name === table.name)) {
+            existingDatabase.tables.push(table);
+          }
+          existingDatabase.activeTable = table;
         }
 
         this.activeDataSource = this.dataSources.find(d => d.database === database);
       }, errors => {
 
       });
-  }
-
-  public selectTab(dataSource: any, $event?: MatTabChangeEvent): void {
-    console.log(dataSource, $event)
   }
 }

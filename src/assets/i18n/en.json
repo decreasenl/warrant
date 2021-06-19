@@ -8,6 +8,8 @@
   "Connection": "Connection",
   "Connection.Add": "Add connection",
   "Connection.Edit": "Edit connection",
+  "Tabs.Close": "Close tab",
+  "Tabs.CloseAll": "Close all tabs",
   "edit": "edit",
   "add": "add",
   "cancel": "Cancel",

@@ -5,15 +5,16 @@
   height: 100%;
 
   .content {
-    display: inline-block;
+    // display: inline-block;
+    display: flex;
     background: $primary-bg-color;
     flex-grow: 1;
     height: 100%;
-    overflow: scroll;
+    overflow: auto;
   }
 
   .sidebar {
-    overflow-x: scroll;
+    overflow-x: auto;
     min-width: 300px;
     padding: 0px;
     background: $primary-bg-color;
@@ -28,10 +29,6 @@
   }
 }
 
-.mat-tab-labels .mat-tab-label-content {
-  color:red;
-}
-
 mat-accordion {
   mat-panel-title,
   mat-list-option {
@@ -44,24 +41,16 @@ mat-accordion {
 }
 
 @mixin sticky-headers {
-  background-color: $dark-bg-color;
-  position: sticky !important;
-  top: 0;
-  z-index: 2;
-}
 
-.mat-tab-group {
-  min-width: 100%;
 }
 
 ::ng-deep {
-  .mat-tab-header {
-    @include sticky-headers;
-  }
-
   .mat-table {
     .mat-header-row {
-      @include sticky-headers;
+      background-color: $dark-bg-color;
+      position: sticky !important;
+      top: 55px!important;
+      z-index: 2;
     }
 
     .mat-header-cell:first-of-type,
@@ -69,22 +58,35 @@ mat-accordion {
       text-indent: 1.2rem;
     }
   }
+}
 
-  .mat-ripple-element {
-    display: none;
+.content > .content-container {
+  width:100%;
+  height:100%;
+  overflow: auto;
+}
+
+.tab-container {
+  overflow: hidden;
+  position: sticky;
+  top: 0px;
+  z-index: 101;
+  background-color: $primary-bg-color;
+  
+  .tab {
+    width:fit-content;
+    opacity: 1;
+    box-sizing: border-box;
+    float:left;
+    padding:1rem;
+    color: $text-disabled-color;
+    cursor: pointer;
   }
-
-.mat-tab-label-container .mat-ink-bar {
-  display: none;
+  
+  .tab.active {
+    color: white;
+    background-color: $light-bg-color;
+    border-bottom:3px solid $accent-color;
+  }
 }
-}
 
-
-::ng-deep.mat-tab-label.mat-tab-label-active:not(.mat-tab-disabled),
-::ng-deep.mat-tab-label.mat-tab-label-active.cdk-keyboard-focused:not(.mat-tab-disabled) {
-  background-color: $light-bg-color;
-  color: white;
-  opacity: 1;
-  box-sizing: border-box;
-  border-bottom:3px solid $accent-color;
-}
